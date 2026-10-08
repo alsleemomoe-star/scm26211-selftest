@@ -124,6 +124,17 @@ details.essay li{margin-bottom:4px}
 footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
   color:var(--fg-dim);font-size:12.5px}
 footer .ar{font-family:var(--font-ar);direction:rtl;text-align:right;margin-top:4px}
+/* Language mode. data-lang="en" hides every Arabic element; the default is bilingual. */
+.ensub{display:none;color:var(--fg-dim);font-size:14px;margin:2px 0 0}
+:root[data-lang="en"] .ensub{display:block}
+:root[data-lang="en"] .sub,
+:root[data-lang="en"] .ar,
+:root[data-lang="en"] .oar,
+:root[data-lang="en"] .wa,
+:root[data-lang="en"] .ear{display:none!important}
+.langsw{border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);
+  border-radius:7px;padding:4px 10px;font-size:13px;font-weight:600;white-space:nowrap}
+.langsw:hover{background:var(--accent);color:var(--bg)}
 *:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -135,10 +146,12 @@ footer .ar{font-family:var(--font-ar);direction:rtl;text-align:right;margin-top:
     <h1>Supply Chain Self-Test</h1>
   </div>
   <p class="sub">اختبار ذاتي · الأسابيع من الأول إلى السادس · نطاق اختبار منتصف الفصل</p>
+  <p class="ensub">Self-test · Weeks 1 to 6 · the full midterm scope</p>
   <div class="bar">
     <div class="chips" id="chips"></div>
     <span class="spacer"></span>
     <span class="score" id="score">0 / 0 answered · 0% correct</span>
+    <button class="langsw" id="langsw" type="button">English only</button>
     <button class="ghost" id="reset" type="button">Reset · إعادة</button>
   </div>
   <div class="meter"><i id="meter"></i></div>
@@ -166,6 +179,33 @@ const WK = {1:['Key Concepts I','المفاهيم الأساسية، الجزء 
             4:['Operations II & III — SOURCE, MAKE, DELIVER','العمليات الثاني والثالث، التوريد والصنع والتسليم'],
             5:['Information Technology','تقنية المعلومات'],
             6:['Performance Metrics','مقاييس الأداء']};
+/* Language: 'bi' shows English with the Arabic beneath it, 'en' hides every Arabic line.
+   The mode comes from the URL so each mode has a link of its own, and the two links
+   serve the same file — there is one set of questions, not two. */
+function readLang(){
+  try {
+    const p = new URLSearchParams(location.search).get('lang');
+    if (p === 'en' || p === 'bi') return p;
+  } catch (e) {}
+  return 'bi';
+}
+let LANG = readLang();
+function applyLang(push){
+  document.documentElement.setAttribute('data-lang', LANG);
+  document.documentElement.setAttribute('lang', 'en');
+  const sw = document.getElementById('langsw');
+  if (sw) sw.textContent = (LANG === 'en') ? 'العربية + English' : 'English only';
+  const rs = document.getElementById('reset');
+  if (rs) rs.textContent = (LANG === 'en') ? 'Reset' : 'Reset · إعادة';
+  if (push) {
+    try {
+      const u = new URL(location.href);
+      if (LANG === 'en') u.searchParams.set('lang','en'); else u.searchParams.delete('lang');
+      history.replaceState(null, '', u);
+    } catch (e) {}
+  }
+}
+
 const KEY = 'scm26211-selftest-v1';
 let state = {};
 try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
@@ -174,7 +214,7 @@ function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch
 let filter = 0; // 0 = all
 
 const chips = document.getElementById('chips');
-[['All · الكل',0],['W1',1],['W2',2],['W3',3],['W4',4],['W5',5],['W6',6]].forEach(([lab,v])=>{
+[[(LANG==='en'?'All':'All · الكل'),0],['W1',1],['W2',2],['W3',3],['W4',4],['W5',5],['W6',6]].forEach(([lab,v])=>{
   const b=document.createElement('button');
   b.type='button'; b.className='chip'; b.textContent=lab;
   b.setAttribute('aria-pressed', String(v===filter));
@@ -184,6 +224,13 @@ const chips = document.getElementById('chips');
 });
 
 document.getElementById('reset').onclick=()=>{ state={}; save(); render(); };
+document.getElementById('langsw').onclick=()=>{
+  LANG = (LANG === 'en') ? 'bi' : 'en';
+  applyLang(true);
+  chips.firstChild.textContent = (LANG==='en') ? 'All' : 'All · الكل';
+  render();
+};
+applyLang(false);
 
 function tally(){
   const list = DATA.mcq.filter(q=>!filter||q.wk===filter);
