@@ -163,10 +163,11 @@ mark{background:var(--keybg);color:inherit;border-radius:3px;padding:0 2px}
 .tag{font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px;margin-top:16px}
 .tag.p{background:#FBF1DC;color:#8A5E08}
 .tag.e{background:#E3EEF7;color:#17557E}
-:root[data-theme="dark"] .tag.p,
-:root:not([data-theme="light"]) .tag.p{background:#3A2E12;color:#E0B64A}
-:root[data-theme="dark"] .tag.e,
-:root:not([data-theme="light"]) .tag.e{background:#15293A;color:#79B6E0}
+:root[data-theme="dark"] .tag.p{background:#3A2E12;color:#E0B64A}
+:root[data-theme="dark"] .tag.e{background:#15293A;color:#79B6E0}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]) .tag.p{background:#3A2E12;color:#E0B64A}
+ :root:not([data-theme="light"]) .tag.e{background:#15293A;color:#79B6E0}}
 .ask{font-size:12.5px;color:var(--mut);margin:7px 0;text-align:center}
 .leaves{display:flex;flex-direction:column;gap:6px;width:100%}
 .leaf2{border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;
@@ -184,8 +185,11 @@ mark{background:var(--keybg);color:inherit;border-radius:3px;padding:0 2px}
 .mx th,.mx td{border:1px solid var(--line);padding:7px 8px;text-align:center;line-height:1.5}
 .mx th{background:var(--soft);font-weight:700;cursor:pointer;white-space:nowrap}
 .mx th.pr{color:#8A5E08}.mx th.eu{color:#17557E}
-:root[data-theme="dark"] .mx th.pr,:root:not([data-theme="light"]) .mx th.pr{color:#E0B64A}
-:root[data-theme="dark"] .mx th.eu,:root:not([data-theme="light"]) .mx th.eu{color:#79B6E0}
+:root[data-theme="dark"] .mx th.pr{color:#E0B64A}
+:root[data-theme="dark"] .mx th.eu{color:#79B6E0}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]) .mx th.pr{color:#E0B64A}
+ :root:not([data-theme="light"]) .mx th.eu{color:#79B6E0}}
 .mx td.h{text-align:right;font-weight:700;background:var(--soft);white-space:nowrap;
   position:sticky;right:0;z-index:2;box-shadow:-1px 0 0 var(--line)}
 .mx .hi{background:var(--keybg);box-shadow:inset 0 0 0 1px var(--key)}
@@ -208,6 +212,49 @@ mark{background:var(--keybg);color:inherit;border-radius:3px;padding:0 2px}
 .exl .bd p{margin-bottom:9px}
 .exl .bd p:last-child{margin-bottom:0}
 .exl .bd b{color:var(--key)}
+
+/* التركيب المعنون */
+.strc{display:flex;flex-direction:column;gap:12px}
+.svgbox{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--bg)}
+.svgbox svg{display:block;width:100%;height:auto}
+.svgbox .shp{fill:var(--soft);stroke:var(--line);stroke-width:2;transition:.18s}
+.svgbox .shp.b{fill:#DCE9F4;stroke:#9CC2DE}
+.svgbox .shp.r{fill:#F7DEDC;stroke:#E2A9A3}
+:root[data-theme="dark"] .svgbox .shp.b{fill:#1B2E3E;stroke:#2E4F6B}
+:root[data-theme="dark"] .svgbox .shp.r{fill:#361F1D;stroke:#5E3330}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]) .svgbox .shp.b{fill:#1B2E3E;stroke:#2E4F6B}
+ :root:not([data-theme="light"]) .svgbox .shp.r{fill:#361F1D;stroke:#5E3330}}
+.svgbox .shp.on{stroke:var(--key);stroke-width:3.5}
+.svgbox text{font-family:inherit;font-size:11.5px;font-weight:700;fill:var(--ink)}
+.svgbox .sm{font-size:9.5px;font-weight:400;fill:var(--mut)}
+.svgbox .fl{stroke:var(--mut);stroke-width:2;fill:none;marker-end:url(#ah)}
+.parts{display:flex;flex-wrap:wrap;gap:6px}
+.part{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;
+  background:transparent;color:var(--ink);cursor:pointer}
+.part:hover{border-color:var(--key)}
+.part.on{background:var(--key);border-color:var(--key);color:#fff}
+/* الدورة */
+.loop{margin-bottom:14px}
+.loop > .lh{font-size:13.5px;font-weight:800;color:var(--key);margin-bottom:2px}
+.loop > .ld{font-size:12.5px;color:var(--mut);margin-bottom:9px}
+.cyc{display:flex;flex-direction:column;align-items:stretch}
+.sta{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:10px;
+  padding:9px 11px;background:transparent;font:inherit;text-align:right;cursor:pointer;width:100%}
+.sta:hover{border-color:var(--key)}
+.sta.on{border-color:var(--key);background:var(--keybg)}
+.sta .k{flex:none;width:23px;height:23px;border-radius:50%;background:var(--soft);color:var(--mut);
+  font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.sta.on .k{background:var(--key);color:#fff}
+.sta .tx{flex:1;min-width:0}
+.sta .tx b{font-size:14px;display:block}
+.sta .tx span{font-size:12px;color:var(--mut);display:block;margin-top:2px}
+.arr{align-self:center;color:var(--mut);font-size:15px;line-height:1;margin:3px 0}
+.back2{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--key);
+  border:1px dashed var(--key);border-radius:9px;padding:6px 11px;margin-top:7px;justify-content:center}
+.cycnav{display:flex;gap:7px;margin-top:9px}
+.cycnav button{flex:1;border:1px solid var(--key);background:var(--keybg);color:var(--key);
+  border-radius:9px;padding:8px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .pdfl{display:block;text-align:center;border:1px dashed var(--line);border-radius:10px;
   padding:11px;font-size:13px;color:var(--key);cursor:pointer;background:transparent;
   font:inherit;width:100%;margin-top:4px}
@@ -357,6 +404,54 @@ const DATA = [
   d:"حيوانات تعيد الطعام من المعدة إلى الفم وتهضمه وتبتلعه مرّة أخرى. ولمعدتها أربع حجرات. وفيها يُهضم السليلوز في المعدة لا في المعي الأعور.", r:[]},
  {t:"الكيراتين", a:[], s:"أحياء 2 · طائفة الطيور · ص 25",
   d:"بروتين ليفي قاسٍ، يدخل في تركيب <b>الشعر والريش والمخالب والحوافر والقرون والأظافر</b>.", r:[]},
+
+ /* --- أحياء 3 · الجهاز الدوراني · ص 39-40 --- */
+ {t:"الجهاز الدوري", a:["الجهاز الدوراني"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"جهاز النقل في الجسم، ينقل الأكسجين والغذاء إلى خلايا الجسم، ويخلّصها من الفضلات وثاني أكسيد الكربون.", r:[]},
+ {t:"الشريان", a:["الشرايين"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"ينقل الدم المؤكسج من القلب لأنحاء الجسم، <b>ما عدا الشريان الرئوي فيحمل دماً غير مؤكسج</b>. وجدرانه سميكة ومرنة ومتينة لتتحمّل ضغط الدم العالي.", r:[]},
+ {t:"الوريد", a:["الأوردة"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"يعيد الدم غير المؤكسج من الجسم للقلب، <b>ما عدا الأوردة الرئوية فتحمل دماً مؤكسجاً</b>. وبه صمامات تمنع عودة الدم، وهو أقلّ سمكاً من الشرايين.", r:[]},
+ {t:"الشعيرات الدموية", a:["الشعيرات"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"جدارها من طبقة واحدة، ويتمّ خلالها تبادل المواد — الغذاء والأكسجين وثاني أكسيد الكربون — بين الدم وخلايا الجسم. وتربط بين الشرايين والأوردة.", r:[]},
+ {t:"القلب", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"عضو عضلي مكوّن من عضلات قلبية بحجم قبضة اليد، في <b>منتصف الصدر</b>. ووظيفته ضخّ الدم بالانقباض والانبساط.", r:[]},
+ {t:"الأذين الأيمن", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"يستقبل الدم <b>غير المؤكسج</b> من الجسم، عن طريق الوريد الأجوف.", r:[]},
+ {t:"البطين الأيمن", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"يضخّ الدم <b>غير المؤكسج</b> للرئتين، عبر الشرايين الرئوية.", r:[]},
+ {t:"الأذين الأيسر", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"يستقبل الدم <b>المؤكسج</b> من الرئتين، عن طريق <b>4 أوردة رئوية</b>.", r:[]},
+ {t:"البطين الأيسر", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"يضخّ الدم <b>المؤكسج</b> للجسم، عبر الشريان الأبهر (الأورطي).", r:[]},
+ {t:"الصمامات", a:["الصمام"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"تفصل بين الأذين والبطين، وتمنع عودة الدم للاتجاه المعاكس. وتحرّك الدم من الأذين للبطين.", r:[]},
+ {t:"العقدة الجيبية الأذينية", a:["منظم النبض","منظّم النبض"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"تقع عند <b>الأذين الأيمن</b>، وتسبّب انقباض القلب.", r:[]},
+ {t:"النبض", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"سببه انقباض وانبساط جدار الشريان، وينبض القلب <b>70 مرّة بالدقيقة</b>. والشرايين مسؤولة عن النبضات التي نحسّ بها في أسفل رسغ اليد، <b>والأوردة لا تنبض</b>.", r:[]},
+ {t:"ضغط الدم", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"قياس لضغط الدم الواقع على جدران الأوعية الدموية. ومعدّله الطبيعي: أقلّ من <b>120</b> ضغط انقباضي، و<b>80</b> ضغط انبساطي.", r:[]},
+ {t:"الدورة الدموية الصغرى", a:["الدورة الرئوية"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"تدفّق الدم من القلب إلى الرئتين والعكس: البطين الأيمن ← الشرايين الرئوية ← الرئتان ← الأوردة الرئوية ← الأذين الأيسر.", r:[]},
+ {t:"الدورة الدموية الكبرى", a:["الدورة الجسمية"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 39",
+  d:"تدفّق الدم من القلب إلى الجسم والعكس: البطين الأيسر ← الشريان الأبهر ← الشعيرات ← الوريد الأجوف ← الأذين الأيمن.", r:[]},
+ {t:"البلازما", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"سائل أصفر يشكّل <b>أكثر من 50%</b> من الدم، و<b>90%</b> منها ماء. تحمل الغذاء والدواء، وتنقل الفيتامينات والأملاح والهرمونات والبروتينات.", r:[]},
+ {t:"خلايا الدم الحمراء", a:["كريات الدم الحمراء"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"<b>لا تحتوي نواة</b> · قرصية الشكل مقعّرة · تنقل الأكسجين لخلايا الجسم · تحتوي الهيموجلوبين.", r:[]},
+ {t:"خلايا الدم البيضاء", a:["كريات الدم البيضاء"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"<b>تحتوي نواة</b> · تدافع عن الجسم وتحذّره ضد الميكروبات والأمراض والبكتيريا.", r:[]},
+ {t:"الصفائح الدموية", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"تساعد في تجلّط الدم. والفايبرين بروتين يساعد في تخثّر الدم.", r:[]},
+ {t:"الهيموجلوبين", a:[], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"بروتين في خلايا الدم الحمراء يحتوي على الحديد. ونقص الحديد يؤدّي إلى <b>فقر الدم</b>.", r:[]},
+ {t:"مولد الضد", a:["الأنتيجين","الانتيجين"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"جزيئات محدّدة على الغشاء البلازمي لخلايا الدم الحمراء، يتمّ تحديد فصائل الدم بناءً عليها.", r:[]},
+ {t:"فصائل الدم", a:["فصيلة الدم"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"أربع: <b>A</b> مولد ضدها A وأجسامها المضادة B · <b>B</b> مولد ضدها B وأجسامها A · <b>AB</b> مولد ضدها AB ولا أجسام مضادة لها، تستقبل من الجميع · <b>O</b> لا مولد ضد لها وأجسامها A و B، تعطي الجميع.", r:[]},
+ {t:"العامل الريزيسي", a:["RH","الريزيسي"], s:"أحياء 3 · الجهاز الدوراني (الدوري) · ص 40",
+  d:"<b>الموجب</b> يستقبل من الموجب والسالب. <b>والسالب</b> لا يستقبل من الموجب. وإذا كانت الأمّ سالبة وجب أن تأخذ حقنة عندما تحمل بطفل موجب، لمنع إنتاج أجسام مضادة.", r:[]},
  {t:"الكروموسوم", a:["الكروموسومات","كروموسوم","الصبغي"], s:"أحياء 4 · التكاثر الخلوي · ص 56",
   d:"تراكيب تحتوي على <b>المادة الوراثية <span class='ltr'>DNA</span></b> التي تنتقل من جيل لآخر. ويمكن رؤيته من بداية المرحلة <span class='ltr'>S</span> وحتى الطور الاستوائي، ويتكون من زوج من الكروماتيدات الشقيقة.", r:["الكروماتين","الكروماتيدات الشقيقة","السنترومير"]},
  {t:"الكروماتين", a:["كروماتين"], s:"أحياء 4 · التكاثر الخلوي · ص 56",
@@ -419,7 +514,7 @@ const TOC = [
  {u:"أحياء 3", n:20, name:"الجهاز العضلي", pg:"36"},
  {u:"أحياء 3", n:21, name:"الجهاز العصبي", pg:"37"},
  {u:"أحياء 3", n:22, name:"تنظيم الجهاز العصبي", pg:"38"},
- {u:"أحياء 3", n:23, name:"الجهاز الدوراني (الدوري)", pg:"39"},
+ {u:"أحياء 3", n:23, name:"الجهاز الدوراني (الدوري)", pg:"39", t:"u3-circ"},
  {u:"أحياء 3", n:24, name:"الجهازان التنفسي والإخراجي", pg:"41"},
  {u:"أحياء 3", n:25, name:"الجهاز الهضمي", pg:"42"},
  {u:"أحياء 3", n:26, name:"التغذية", pg:"43"},
@@ -665,6 +760,141 @@ const TOPICS = [{
    o:["القانصة","الحوصلة","الحجاب الحاجز","المذرق"], c:2,
    e:"الحجاب الحاجز، ينقبض ويتخفض عند الشهيق وينبسط ويرتفع عند الزفير. والحوصلة والقانصة في الطيور."}
  ]
+},{
+ id:"u3-circ", unit:"أحياء 3", name:"الجهاز الدوراني (الدوري)", page:"39 و40",
+ sheet:"",
+ viz:[
+  {k:"idea", t:"الجهاز الدوري جهاز النقل في الجسم: ينقل الأكسجين والغذاء إلى خلايا الجسم، ويخلّصها من الفضلات وثاني أكسيد الكربون. وكل ما في الموضوع إمّا وعاء ينقل، أو حجرة تضخّ، أو دورة تسير."},
+  {k:"text", h:"الشرح", secs:[
+   {t:"الأوعية الثلاثة", p:[
+    "<b>الشريان:</b> ينقل الدم المؤكسج من القلب لأنحاء الجسم، <b>ما عدا الشريان الرئوي فيحمل دماً غير مؤكسج</b>. وجدرانه سميكة ومرنة ومتينة لتتحمّل ضغط الدم العالي من القلب.",
+    "<b>الوريد:</b> يعيد الدم غير المؤكسج من الجسم للقلب، <b>ما عدا الأوردة الرئوية فتحمل دماً مؤكسجاً</b>. ويوجد بها صمامات تمنع عودة الدم، وهي أقلّ سمكاً من الشرايين.",
+    "<b>الشعيرات الدموية:</b> جدارها من طبقة واحدة، ويتمّ خلالها تبادل المواد — الغذاء والأكسجين وثاني أكسيد الكربون — بين الدم وخلايا الجسم. وتربط بين الشرايين والأوردة."]},
+   {t:"القلب وعمله", p:[
+    "القلب عضو عضلي مكوّن من عضلات قلبية بحجم قبضة اليد، في <b>منتصف الصدر</b>، ووظيفته ضخّ الدم بالانقباض والانبساط.",
+    "<b>الجزء العلوي:</b> الأذينان، وهما يستقبلان الدم. <b>والجزء السفلي:</b> البطينان، وهما يضخّان الدم.",
+    "<b>الصمامات:</b> تفصل بين الأذين والبطين وتمنع عودة الدم للاتجاه المعاكس. وتحرّك الصمامات الدم من الأذين للبطين."]},
+   {t:"منظّم النبض وضغط الدم", p:[
+    "<b>العقدة الجيبية الأذينية (منظم النبض):</b> تقع عند الأذين الأيمن، وتسبّب انقباض القلب.",
+    "<b>النبض:</b> سببه انقباض وانبساط جدار الشريان، وينبض القلب 70 مرّة بالدقيقة. والشرايين مسؤولة عن النبضات التي نحسّ بها في أسفل رسغ اليد — <b>والأوردة لا تنبض</b>.",
+    "<b>ضغط الدم:</b> قياس لضغط الدم على جدران الأوعية الدموية. ومعدّله الطبيعي: أقلّ من 120 ضغط انقباضي، 80 ضغط انبساطي."]},
+   {t:"مكوّنات الدم", p:[
+    "<b>البلازما:</b> سائل أصفر يشكّل أكثر من 50% من الدم، و90% منها ماء. تحمل الغذاء والدواء، وتنقل الفيتامينات والأملاح والهرمونات والبروتينات.",
+    "<b>خلايا الدم الحمراء:</b> لا تحتوي نواة · قرصية الشكل مقعّرة · تنقل الأكسجين لخلايا الجسم · تحتوي على الهيموجلوبين وهو بروتين يحتوي على الحديد. ونقص الحديد يؤدّي إلى فقر الدم.",
+    "<b>خلايا الدم البيضاء:</b> تحتوي نواة · تدافع عن الجسم وتحذّره ضد الميكروبات والأمراض والبكتيريا.",
+    "<b>الصفائح الدموية:</b> تساعد في تجلّط الدم. والفايبرين بروتين يساعد في تخثّر الدم."]},
+   {t:"فصائل الدم", p:[
+    "<b>مولد الضد (الأنتيجين):</b> جزيئات محدّدة على الغشاء البلازمي لخلايا الدم الحمراء، يتمّ تحديد فصائل الدم بناءً عليها.",
+    "<b>O</b> لا مولد ضد لها، وأجسامها المضادة A و B. تعطي جميع الفصائل، ولا تستقبل إلا من O.",
+    "<b>AB</b> مولد ضدها AB، ولا أجسام مضادة لها. تعطي AB فقط، وتستقبل من جميع الفصائل.",
+    "<b>العامل الريزيسي:</b> الموجب يستقبل من الموجب والسالب، والسالب لا يستقبل من الموجب. وإذا كانت الأمّ سالبة يجب أن تأخذ حقنة عندما تحمل بطفل موجب، لمنع إنتاج أجسام مضادة."]}
+  ]},
+  {k:"struct", h:"حجرات القلب", svg:`<svg viewBox="0 0 420 300" role="img" aria-label="مخطط حجرات القلب">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M0 0 L10 5 L0 10 z" fill="#8A97A3"/></marker></defs>
+<rect id="ra" class="shp b" x="112" y="56" width="92" height="78" rx="12"/>
+<rect id="rv" class="shp b" x="112" y="152" width="92" height="96" rx="12"/>
+<rect id="la" class="shp r" x="216" y="56" width="92" height="78" rx="12"/>
+<rect id="lv" class="shp r" x="216" y="152" width="92" height="96" rx="12"/>
+<text x="158" y="92" text-anchor="middle">الأذين</text><text x="158" y="110" text-anchor="middle">الأيمن</text>
+<text x="158" y="192" text-anchor="middle">البطين</text><text x="158" y="210" text-anchor="middle">الأيمن</text>
+<text x="262" y="92" text-anchor="middle">الأذين</text><text x="262" y="110" text-anchor="middle">الأيسر</text>
+<text x="262" y="192" text-anchor="middle">البطين</text><text x="262" y="210" text-anchor="middle">الأيسر</text>
+<rect id="vlv" class="shp" x="124" y="138" width="68" height="9" rx="4"/>
+<rect id="vlv2" class="shp" x="228" y="138" width="68" height="9" rx="4"/>
+<circle id="sa" class="shp" cx="200" cy="64" r="8"/>
+<path class="fl" d="M60 86 H108"/><text class="sm" x="62" y="76">الوريد الأجوف</text>
+<path class="fl" d="M108 196 H64"/><text class="sm" x="62" y="186">الشريان الرئوي</text>
+<path class="fl" d="M360 86 H312"/><text class="sm" x="358" y="76" text-anchor="end">الأوردة الرئوية</text>
+<path class="fl" d="M312 196 H356"/><text class="sm" x="358" y="186" text-anchor="end">الشريان الأبهر</text>
+<text class="sm" x="158" y="272" text-anchor="middle">دم غير مؤكسج</text>
+<text class="sm" x="262" y="272" text-anchor="middle">دم مؤكسج</text>
+<text class="sm" x="200" y="42" text-anchor="middle">العقدة الجيبية الأذينية</text>
+</svg>`,
+   parts:[
+    {n:"الأذين الأيمن", id:"ra", d:"يستقبل الدم غير المؤكسج من الجسم، عن طريق الوريد الأجوف."},
+    {n:"البطين الأيمن", id:"rv", d:"يضخّ الدم غير المؤكسج للرئتين، عبر الشرايين الرئوية."},
+    {n:"الأذين الأيسر", id:"la", d:"يستقبل الدم المؤكسج من الرئتين، عن طريق 4 أوردة رئوية."},
+    {n:"البطين الأيسر", id:"lv", d:"يضخّ الدم المؤكسج للجسم، عبر الشريان الأبهر (الأورطي)."},
+    {n:"الصمامات", id:"vlv vlv2", d:"تفصل بين الأذين والبطين، وتمنع عودة الدم للاتجاه المعاكس. وتحرّك الدم من الأذين للبطين."},
+    {n:"العقدة الجيبية الأذينية", id:"sa", d:"منظّم النبض. تقع عند الأذين الأيمن، وتسبّب انقباض القلب."}
+   ]},
+  {k:"cycle", h:"تدفّق الدم في الجسم", loops:[
+   {name:"الدورة الدموية الصغرى (الرئوية)", d:"تدفّق الدم من القلب إلى الرئتين والعكس",
+    steps:[
+     {n:"البطين الأيمن", d:"يضخّ الدم غير المؤكسج"},
+     {n:"الشرايين الرئوية", d:"الشريان الوحيد الذي يحمل دماً غير مؤكسج"},
+     {n:"الرئتان", d:"تبادل الغازات: يدخل الأكسجين ويخرج ثاني أكسيد الكربون"},
+     {n:"الأوردة الرئوية الأربعة", d:"الأوردة الوحيدة التي تحمل دماً مؤكسجاً"},
+     {n:"الأذين الأيسر", d:"يستقبل الدم المؤكسج"}
+    ]},
+   {name:"الدورة الدموية الكبرى (الجسمية)", d:"تدفّق الدم من القلب إلى الجسم والعكس",
+    steps:[
+     {n:"البطين الأيسر", d:"يضخّ الدم المؤكسج"},
+     {n:"الشريان الأبهر (الأورطي)", d:"أكبر شريان، يوزّع الدم على أنحاء الجسم"},
+     {n:"الشعيرات الدموية", d:"جدارها طبقة واحدة، ويتمّ خلالها تبادل المواد مع خلايا الجسم"},
+     {n:"الوريد الأجوف", d:"يعيد الدم غير المؤكسج"},
+     {n:"الأذين الأيمن", d:"يستقبل الدم غير المؤكسج"}
+    ]}
+  ]},
+  {k:"matrix", h:"الأوعية الدموية", hint:"اضغط اسم الوعاء",
+   cols:[{n:"الشريان",c:"pr"},{n:"الوريد",c:"eu"},{n:"الشعيرات",c:"eu"}],
+   rows:[
+    {h:"الاتجاه", v:["من القلب إلى الجسم","من الجسم إلى القلب","تربط بين الشرايين والأوردة"], df:[0,1,2]},
+    {h:"نوع الدم", v:["مؤكسج — ما عدا الشريان الرئوي","غير مؤكسج — ما عدا الأوردة الرئوية","يتبادل"], df:[0,1]},
+    {h:"الجدار", v:["سميك ومرن ومتين","أقلّ سمكاً من الشرايين","طبقة واحدة"], df:[0,2]},
+    {h:"الصمامات", v:["لا يحوي صمامات","يوجد بها صمامات تمنع عودة الدم","—"], df:[0,1]},
+    {h:"النبض", v:["ينبض","لا ينبض","—"], df:[0,1]}
+   ]},
+  {k:"traps", h:"مصائد الاختبار", items:[
+   "<b>الشريان الرئوي هو الشريان الوحيد الذي يحمل دماً غير مؤكسج، والأوردة الرئوية هي الأوردة الوحيدة التي تحمل دماً مؤكسجاً.</b> وهذا أكثر ما يُسأل عنه في الباب.",
+   "<b>الأذينان يستقبلان والبطينان يضخّان.</b> والعلوي يستقبل والسفلي يضخّ.",
+   "<b>الأوردة لا تنبض.</b> والنبض الذي نحسّه في رسغ اليد من الشرايين.",
+   "<b>الأوردة الرئوية أربعة.</b> والعدد يُسأل عنه.",
+   "<b>البلازما أكثر من 50% من الدم، و90% منها ماء.</b> ولا يُخلط بين النسبتين.",
+   "<b>خلايا الدم الحمراء لا نواة لها، والبيضاء لها نواة.</b>",
+   "<b>فصيلة O تعطي الجميع ولا تستقبل إلا من O، و AB تستقبل من الجميع ولا تعطي إلا AB.</b>",
+   "<b>السالب لا يستقبل من الموجب.</b> والموجب يستقبل من الاثنين."
+  ]}
+ ],
+ qs:[
+  {p:"الوعاء الدموي الوحيد من الشرايين الذي يحمل دماً غير مؤكسج.",
+   o:["الشريان الأبهر","الشريان الرئوي","الوريد الأجوف","الشعيرات الدموية"], c:1,
+   e:"الشريان الرئوي يحمل الدم غير المؤكسج من البطين الأيمن إلى الرئتين. والأبهر يحمل المؤكسج، والوريد الأجوف وريد لا شريان."},
+  {p:"الحجرة التي تستقبل الدم المؤكسج من الرئتين.",
+   o:["الأذين الأيمن","البطين الأيمن","الأذين الأيسر","البطين الأيسر"], c:2,
+   e:"الأذين الأيسر، عن طريق أربعة أوردة رئوية. والأذين الأيمن يستقبل غير المؤكسج من الوريد الأجوف."},
+  {p:"أين تقع العقدة الجيبية الأذينية؟",
+   o:["عند الأذين الأيمن","عند البطين الأيسر","في الشريان الأبهر","في الرئة اليمنى"], c:0,
+   e:"العقدة الجيبية الأذينية هي منظّم النبض، وتقع عند الأذين الأيمن وتسبّب انقباض القلب."},
+  {p:"الوعاء الذي يتمّ خلاله تبادل المواد بين الدم وخلايا الجسم.",
+   o:["الشريان","الوريد","الشعيرات الدموية","الصمام"], c:2,
+   e:"الشعيرات الدموية جدارها من طبقة واحدة، فيتمّ خلالها تبادل الغذاء والأكسجين وثاني أكسيد الكربون."},
+  {p:"مكوّن الدم الذي لا يحتوي على نواة.",
+   o:["خلايا الدم البيضاء","خلايا الدم الحمراء","البلازما","الصفائح الدموية"], c:1,
+   e:"خلايا الدم الحمراء لا تحتوي نواة، وهي قرصية مقعّرة وتحتوي الهيموجلوبين. والبيضاء تحتوي نواة."},
+  {p:"البروتين الذي يحتوي على الحديد وينقل الأكسجين.",
+   o:["الفايبرين","الهيموجلوبين","الأنتيجين","البلازما"], c:1,
+   e:"الهيموجلوبين، ونقص الحديد يؤدّي إلى فقر الدم. والفايبرين يساعد في تخثّر الدم."},
+  {p:"فصيلة الدم التي تعطي جميع الفصائل.",
+   o:["A","B","AB","O"], c:3,
+   e:"O لا مولد ضد لها فتعطي الجميع، ولا تستقبل إلا من O. و AB تستقبل من الجميع ولا تعطي إلا AB."},
+  {p:"أيّ العبارات صحيحة عن العامل الريزيسي؟",
+   o:["السالب يستقبل من الموجب","الموجب يستقبل من السالب","الموجب لا يستقبل من الموجب","السالب يعطي الموجب فقط"], c:1,
+   e:"الموجب يستقبل من الموجب والسالب، والسالب لا يستقبل من الموجب."},
+  {p:"ترتيب الدورة الدموية الصغرى بعد البطين الأيمن.",
+   o:["الشريان الأبهر","الشرايين الرئوية","الوريد الأجوف","الشعيرات الدموية"], c:1,
+   e:"البطين الأيمن ← الشرايين الرئوية ← الرئتان ← الأوردة الرئوية ← الأذين الأيسر."},
+  {p:"سبب النبض الذي نحسّ به في رسغ اليد.",
+   o:["انقباض وانبساط جدار الشريان","انقباض الأوردة","عمل الصمامات","تبادل الغازات"], c:0,
+   e:"النبض سببه انقباض وانبساط جدار الشريان، والأوردة لا تنبض. وينبض القلب 70 مرّة بالدقيقة."},
+  {p:"معدّل ضغط الدم الطبيعي.",
+   o:["أقلّ من 120 انقباضي و80 انبساطي","120 انبساطي و80 انقباضي","أقلّ من 80 انقباضي","70 انقباضي و120 انبساطي"], c:0,
+   e:"أقلّ من 120 ضغط انقباضي، و80 ضغط انبساطي."},
+  {p:"وظيفة الصمامات في القلب.",
+   o:["ضخّ الدم","تبادل الغازات","منع عودة الدم للاتجاه المعاكس","تنظيم النبض"], c:2,
+   e:"تفصل بين الأذين والبطين وتمنع عودة الدم، وتحرّك الدم من الأذين للبطين. والضخّ وظيفة البطينين، والتنظيم وظيفة العقدة الجيبية."}
+ ]
 }];
 
 function topicOf(e){
@@ -794,6 +1024,30 @@ function vText(b, i){
       <div class="bd" hidden>${x.p.map(y => `<p>${y}</p>`).join('')}</div>
     </div>`).join('')}</div>`;
 }
+function vStruct(b, i){
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">اضغط اسم الجزء</em></h3>
+    <div class="strc">
+      <div class="svgbox" data-sv="${i}">${b.svg}</div>
+      <div class="parts" data-ps="${i}">
+        ${b.parts.map((x,j) => `<button class="part" data-part="${i}-${j}">${esc(x.n)}</button>`).join('')}
+      </div>
+      <div class="detail" id="pt-${i}" hidden></div>
+    </div></div>`;
+}
+function vCycle(b, i){
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">اضغط المحطة أو «التالي»</em></h3>
+    ${b.loops.map((lp,li) => `<div class="loop" data-loop="${i}-${li}">
+      <div class="lh">${esc(lp.name)}</div><div class="ld">${esc(lp.d)}</div>
+      <div class="cyc">
+        ${lp.steps.map((st,si) => `<button class="sta" data-step="${i}-${li}-${si}">
+            <span class="k">${si+1}</span>
+            <span class="tx"><b>${esc(st.n)}</b><span>${esc(st.d)}</span></span>
+          </button>${si < lp.steps.length-1 ? '<span class="arr">&#8595;</span>' : ''}`).join('')}
+        <div class="back2">&#8635; ويعود إلى ${esc(lp.steps[0].n)}</div>
+      </div>
+      <div class="cycnav"><button data-cyc="${i}-${li}">التالي</button></div>
+    </div>`).join('')}</div>`;
+}
 function vLadder(b, i){
   const n = b.items.length;
   return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">اضغط أي مستوى لتعريفه</em></h3>
@@ -842,6 +1096,8 @@ function drawViz(t){
   return t.viz.map((b,i) =>
     b.k === 'idea'   ? `<div class="idea">${esc(b.t)}</div>` :
     b.k === 'text'   ? vText(b,i)   :
+    b.k === 'struct' ? vStruct(b,i) :
+    b.k === 'cycle'  ? vCycle(b,i)  :
     b.k === 'ladder' ? vLadder(b,i) :
     b.k === 'tree'   ? vTree(b,i)   :
     b.k === 'matrix' ? vMatrix(b,i) :
@@ -956,6 +1212,41 @@ document.addEventListener('click', ev=>{
   if(ex){
     const w = ex.parentElement, bd = w.querySelector('.bd');
     w.classList.toggle('on'); bd.hidden = !w.classList.contains('on');
+    return;
+  }
+  const pt = ev.target.closest('[data-part]');
+  if(pt && openTopic){
+    const [bi, j] = pt.dataset.part.split('-').map(Number);
+    const x = openTopic.viz[bi].parts[j];
+    const wrap = pt.closest('.strc');
+    const was = pt.classList.contains('on');
+    wrap.querySelectorAll('.part').forEach(e => e.classList.remove('on'));
+    wrap.querySelectorAll('.shp').forEach(e => e.classList.remove('on'));
+    const box = document.getElementById('pt-' + bi);
+    if(was){ box.hidden = true; return; }
+    pt.classList.add('on');
+    (x.id || '').split(' ').filter(Boolean).forEach(id => {
+      const sh = wrap.querySelector('#' + id); if(sh) sh.classList.add('on');
+    });
+    box.innerHTML = `<b>${esc(x.n)}</b>${esc(x.d)}`; box.hidden = false;
+    return;
+  }
+  const stp = ev.target.closest('[data-step]');
+  if(stp){
+    const lp = stp.closest('.loop');
+    const was = stp.classList.contains('on');
+    lp.querySelectorAll('.sta').forEach(e => e.classList.remove('on'));
+    if(!was) stp.classList.add('on');
+    return;
+  }
+  const cy = ev.target.closest('[data-cyc]');
+  if(cy){
+    const lp = cy.closest('.loop'), all = [...lp.querySelectorAll('.sta')];
+    const cur = all.findIndex(e => e.classList.contains('on'));
+    all.forEach(e => e.classList.remove('on'));
+    const nx = all[(cur + 1) % all.length];
+    nx.classList.add('on');
+    nx.scrollIntoView({block:'center', behavior:'smooth'});
     return;
   }
   const rg = ev.target.closest('[data-rung]');
