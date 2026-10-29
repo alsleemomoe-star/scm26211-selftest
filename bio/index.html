@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>اسأل الأحياء</title>
+<meta name="description" content="ابحث عن أي مصطلح في الأحياء واحصل على تعريفه من الكتاب مباشرة">
+<meta name="theme-color" content="#0F766E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ink:#16222E; --mut:#64748B; --line:#E2E8F0; --soft:#F6F8FA;
+  --key:#0F766E; --keybg:#E6F2F1; --warn:#B3261E; --bg:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E8EDF2; --mut:#93A3B4; --line:#2A3542; --soft:#1A232E;
+    --key:#5EC5BB; --keybg:#17302E; --warn:#F2928B; --bg:#111821;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E8EDF2; --mut:#93A3B4; --line:#2A3542; --soft:#1A232E;
+  --key:#5EC5BB; --keybg:#17302E; --warn:#F2928B; --bg:#111821;
+}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Tajawal,'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--ink);
+  line-height:1.7;padding:0 16px env(safe-area-inset-bottom)}
+.wrap{max-width:720px;margin:0 auto;padding:22px 0 60px}
+header{text-align:center;margin-bottom:18px}
+h1{font-size:25px;font-weight:800;letter-spacing:-.2px}
+header p{font-size:13.5px;color:var(--mut);margin-top:4px}
+.box{position:sticky;top:0;background:var(--bg);padding:12px 0 10px;z-index:5}
+.field{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:14px;
+  padding:12px 14px;transition:border-color .15s,box-shadow .15s;background:var(--bg)}
+.field:focus-within{border-color:var(--key);box-shadow:0 0 0 4px var(--keybg)}
+.field svg{flex:none;width:20px;height:20px;stroke:var(--mut);fill:none;stroke-width:2}
+input{flex:1;border:0;outline:0;font:inherit;font-size:17px;background:transparent;color:var(--ink)}
+input::placeholder{color:var(--mut);opacity:.85}
+.clr{border:0;background:transparent;color:var(--mut);font:inherit;font-size:20px;cursor:pointer;
+  line-height:1;padding:0 2px;display:none}
+.clr.on{display:block}
+.meta{font-size:12.5px;color:var(--mut);margin:8px 2px 0;min-height:18px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.chip{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:999px;
+  padding:6px 13px;font:inherit;font-size:13.5px;cursor:pointer}
+.chip:hover,.chip:focus-visible{border-color:var(--key);color:var(--key);outline:0}
+.card{border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-top:12px;background:var(--bg)}
+.card h2{font-size:18.5px;font-weight:800;margin-bottom:6px}
+.card .def{font-size:15.5px}
+.card .def b{color:var(--key);font-weight:700}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block;font-weight:700}
+.src{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--mut);
+  background:var(--soft);border-radius:8px;padding:4px 10px}
+.rel{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.rel .lb{font-size:12.5px;color:var(--mut);margin-bottom:7px}
+.empty{text-align:center;padding:26px 10px;color:var(--mut);font-size:14.5px}
+.none{border:1px solid var(--line);border-right:4px solid var(--warn);border-radius:12px;
+  padding:15px 16px;margin-top:12px;background:var(--soft)}
+.none b{color:var(--warn)}
+.none p{font-size:14.5px;margin-top:4px}
+footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--mut);text-align:center;line-height:1.9}
+mark{background:var(--keybg);color:inherit;border-radius:3px;padding:0 2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>اسأل الأحياء</h1>
+  <p>اكتب أي مصطلح، ويظهر تعريفه من الكتاب</p>
+</header>
+
+<div class="box">
+  <div class="field">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"
+           placeholder="مثال: الكروموسوم" aria-label="ابحث عن مصطلح">
+    <button class="clr" id="clr" aria-label="مسح">&times;</button>
+  </div>
+  <div class="meta" id="meta"></div>
+</div>
+
+<div id="out"></div>
+
+<footer>
+  المصدر: كتاب تأسيس يَلو للأحياء · أحياء ١ ص ٦ · أحياء ٤ ص ٥٦<br>
+  كل تعريف هنا من نصّ الكتاب، ولا مادّة من خارجه. وما لا يذكره الكتاب يقول البحث إنه غير موجود.
+</footer>
+
+</div>
+
+<script>
+/* ===== بنك المصطلحات — كل تعريف منقول من الكتاب ===== */
+const DATA = [
+ /* --- أحياء ١ · الموضوع الثاني: تنظيم تنوّع الحياة · ص ٦ --- */
+ {t:"التصنيف", a:["تصنيف"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"وضع الأشياء أو المخلوقات الحية في مجموعات بناءً على مجموعة من الخصائص.", r:["علم التصنيف","المصنّف","فوق المملكة"]},
+ {t:"علم التصنيف", a:[], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"أحد فروع علم الأحياء، يهتم بتعريف الأنواع وتسميتها وتصنيفها بناءً على صفاتها وعلاقاتها الطبيعية.", r:["التصنيف","كارلوس لينيوس"]},
+ {t:"المصنّف", a:["مصنف"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مجموعة المخلوقات الحية التي اتخذت اسماً.", r:["التصنيف","فوق المملكة"]},
+ {t:"التسمية الثنائية", a:["الاسم العلمي","التسميه الثنائيه"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"اسم ثنائي للمخلوق الحي باللغة اللاتينية، وضعه <b>كارلوس لينيوس</b>. ويتكون من كلمتين: الأولى اسم <b>الجنس</b> وتبدأ بحرف كبير، والثانية اسم <b>النوع</b> وأحرفه كلها صغيرة. ويُكتب بخط مائل في المطبوع، ويوضع تحته خط إذا كُتب بخط اليد.", r:["كارلوس لينيوس","الجنس","النوع"]},
+ {t:"فوق المملكة", a:["فوق المملكه","المجال"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"أوسع المصنّفات، تضم مملكة أو أكثر. ويوجد <b>٣ فوق ممالك</b>، وصُنفت حسب نوع الخلية والتركيب.", r:["المملكة","المصنّف"]},
+ {t:"المملكة", a:["الممالك","المملكه"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"صُنفت حسب نوع الخلية والتركيب والتغذي، وتضم شعباً أو أقساماً، وعددها <b>٦ ممالك</b>: مملكتان بدائيتا النوى، وأربع حقيقية النوى.", r:["فوق المملكة","الشعبة","البدائيات"]},
+ {t:"الشعبة", a:["القسم","الشعبه"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"تضم طوائف متقاربة. ويُستخدم مصطلح <b>القسم</b> بدلاً منها في تصنيف البكتيريا والنباتات، وهما اسمان لمستوى واحد.", r:["المملكة","الطائفة"]},
+ {t:"الطائفة", a:["الطائفه"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"تضم رتباً متقاربة.", r:["الشعبة","الرتبة"]},
+ {t:"الرتبة", a:["الرتبه"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"تضم فصائل متقاربة.", r:["الطائفة","الفصيلة"]},
+ {t:"الفصيلة", a:["الفصيله","العائلة"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"المصنّف الأعلى من الجنس، وتتكون من أجناس متشابهة.", r:["الرتبة","الجنس"]},
+ {t:"الجنس", a:[], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مجموعة من الأنواع الأكثر ترابطاً وتشابهاً وتشترك خصائصها.", r:["الفصيلة","النوع"]},
+ {t:"النوع", a:[], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مجموعة من المخلوقات الحية المتشابهة في الشكل والتركيب، <b>قادرة على التزاوج فيما بينها وإنتاج نسل خصب</b>. وهو أصغر مستويات التصنيف.", r:["الجنس","التسمية الثنائية"]},
+ {t:"أرسطو", a:["ارسطو"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"صنّف الحيوانات تبعاً لوجود <b>الدم الأحمر</b> أو عدمه، وصنّف النباتات إلى أشجار وشجيرات وأعشاب.", r:["كارلوس لينيوس","التصنيف"]},
+ {t:"كارلوس لينيوس", a:["لينيوس"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"<b>أول من وضع نظاماً رسمياً (عالمياً) للتصنيف</b>، اعتمد في تصنيفه على شكل المخلوق الحي وسلوكه. ووضع نظام التسمية الثنائية.", r:["أرسطو","التسمية الثنائية"]},
+ {t:"البدائيات", a:["البدائيه","مملكة البدائيات","العتائق"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مملكة <b>بدائية النوى</b>. جدار الخلية <b>بدون ببتيدوجلايكان</b>، وحيدة الخلية، وتغذيتها ذاتية أو غير ذاتية. مثال: بدائيات منتجة للميثان.", r:["البكتيريا","الببتيدوجلايكان","المملكة"]},
+ {t:"البكتيريا", a:["مملكة البكتيريا","بكتيريا"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مملكة <b>بدائية النوى</b>. جدار الخلية <b>يحتوي على ببتيدوجلايكان</b>، وحيدة الخلية، وتغذيتها ذاتية أو غير ذاتية. مثال: البكتيريا الكاذبة.", r:["البدائيات","الببتيدوجلايكان"]},
+ {t:"الطلائعيات", a:["الطلائعيه","مملكة الطلائعيات"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مملكة <b>حقيقية النوى</b>. بعضها يحتوي على سليلوز، وحيدة الخلية أو عديدة، وتغذيتها ذاتية أو غير ذاتية. مثال: براميسيوم.", r:["الفطريات","النباتات"]},
+ {t:"الفطريات", a:["مملكة الفطريات","الفطر"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مملكة <b>حقيقية النوى</b>. جدار الخلية يحتوي على <b>كايتين</b>، وغالباً عديدة الخلايا، وغير ذاتية التغذي. مثال: فطر المشروم.", r:["الطلائعيات","النباتات"]},
+ {t:"النباتات", a:["مملكة النباتات","النبات"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مملكة <b>حقيقية النوى</b>. جدار الخلية يحتوي على <b>سليلوز</b>، عديدة الخلايا، وذاتية التغذي. مثال: حزازيات.", r:["الحيوانات","الفطريات"]},
+ {t:"الحيوانات", a:["مملكة الحيوانات","الحيوان"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مملكة <b>حقيقية النوى</b>. <b>لا يوجد جدار خلوي</b>، عديدة الخلايا، وغير ذاتية التغذي. مثال: دودة الأرض.", r:["النباتات","الطلائعيات"]},
+ {t:"الببتيدوجلايكان", a:["ببتيدوجلايكان","بيبتيدوجلايكان"], s:"أحياء ١ · تنظيم تنوّع الحياة · ص ٦",
+  d:"مادة في جدار الخلية. <b>وجودها يميّز مملكة البكتيريا، وغيابها يميّز مملكة البدائيات</b>، وكلتاهما بدائية النوى.", r:["البكتيريا","البدائيات"]},
+
+ /* --- أحياء ٤ · التكاثر الخلوي · ص ٥٦ --- */
+ {t:"الكروموسوم", a:["الكروموسومات","كروموسوم","الصبغي"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"تراكيب تحتوي على <b>المادة الوراثية <span class='ltr'>DNA</span></b> التي تنتقل من جيل لآخر. ويمكن رؤيته من بداية المرحلة <span class='ltr'>S</span> وحتى الطور الاستوائي، ويتكون من زوج من الكروماتيدات الشقيقة.", r:["الكروماتين","الكروماتيدات الشقيقة","السنترومير"]},
+ {t:"الكروماتين", a:["كروماتين"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"المادة الوراثية <span class='ltr'>DNA</span> الممتدة على شكل <b>خيوط رفيعة</b> داخل النواة، والتي تظهر ملونة عند صبغ الخلية <b>أثناء الطور البيني</b>.", r:["الكروموسوم","الطور البيني"]},
+ {t:"الكروماتيدات الشقيقة", a:["الكروماتيد","كروماتيدات"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"تراكيب تحوي <b>نسخاً متطابقة</b> من <span class='ltr'>DNA</span>.", r:["الكروموسوم","السنترومير"]},
+ {t:"السنترومير", a:["سنترومير"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"تركيب في <b>منتصف الكروموسوم</b> يربط بين الكروماتيدات الشقيقة.", r:["الكروموسوم","الكروماتيدات الشقيقة"]},
+ {t:"دورة الخلية", a:["دوره الخليه"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"جميع نشاطات الخلية التي تضم النمو الخلوي وانقسام الخلية. وتتكون من: <b>١ الطور البيني · ٢ الانقسام المتساوي · ٣ انقسام السيتوبلازم</b>.", r:["الطور البيني","الانقسام المتساوي"]},
+ {t:"الطور البيني", a:["الطور البينى","الانترفيز"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"<b>أطول طور، ولا يحدث فيه انقسام.</b> ومراحله ثلاث: مرحلة النمو الأول <span class='ltr'>G1</span> تنمو الخلية وتتهيأ لتضاعف <span class='ltr'>DNA</span> · مرحلة بناء وتضاعف <span class='ltr'>DNA</span> أي <span class='ltr'>S</span> ويتم فيها نسخ المادة الوراثية · مرحلة النمو الثاني <span class='ltr'>G2</span> تستعد الخلية لانقسام نواتها.", r:["دورة الخلية","الكروماتين"]},
+ {t:"الانقسام المتساوي", a:["الميتوزي","الانقسام المتساوى"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"أطواره أربعة بالترتيب: <b>١ التمهيدي · ٢ الاستوائي · ٣ الانفصالي · ٤ النهائي</b>.", r:["الطور التمهيدي","الطور الاستوائي","الطور الانفصالي","الطور النهائي"]},
+ {t:"الطور التمهيدي", a:["التمهيدي"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"<b>أطول الأطوار زمناً.</b> يتلاشى الغلاف النووي والنوية، وتتكاثف الكروموسومات، وتتكون الخيوط المغزلية.", r:["الطور الاستوائي","الانقسام المتساوي"]},
+ {t:"الطور الاستوائي", a:["الاستوائي","الطور الإستوائي"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"<b>أقصر الأطوار.</b> ترتبط الكروموسومات مع خيوط المغزل، وتصطف على طول <b>خط استواء الخلية</b>.", r:["الطور التمهيدي","الطور الانفصالي"]},
+ {t:"الطور الانفصالي", a:["الانفصالي"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"تنكمش الأنيبيبات الدقيقة، وتنفصل الكروموسومات إلى كروماتيدات شقيقة، وتنسحب الكروماتيدات الشقيقة إلى <b>قطبي الخلية المتقابلين</b>.", r:["الطور الاستوائي","الطور النهائي"]},
+ {t:"الطور النهائي", a:["النهائي"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"<b>عكس الطور التمهيدي.</b> تتكون النوية والغلاف النووي، وتتلاشى خيوط المغزل.", r:["الطور التمهيدي","انقسام السيتوبلازم"]},
+ {t:"الجهاز المغزلي", a:["المغزل","خيوط المغزل"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"مكوناته ثلاثة: <b>١ الخيوط المغزلية · ٢ المريكزات (السنتريولات) · ٣ الألياف النجمية</b>. والمريكزات ليست جزءاً منه في الخلايا النباتية.", r:["الطور التمهيدي","الانقسام المتساوي"]},
+ {t:"انقسام السيتوبلازم", a:["السيتوبلازم","التخصر","الصفيحة الخلوية"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"في الخلية <b>الحيوانية</b> يحدث تخصّر، وفي الخلية <b>النباتية</b> تتكون صفيحة خلوية.", r:["دورة الخلية","الطور النهائي"]},
+ {t:"مساحة السطح", a:["مساحه السطح"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"المساحة التي يغطيها الغشاء البلازمي، وتساوي: <b>الطول × العرض × ٦</b>.", r:["حجم الخلية","نسبة مساحة السطح إلى الحجم"]},
+ {t:"حجم الخلية", a:["حجم الخليه"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"يساوي <b>الطول × العرض × الارتفاع</b>. وكلما صغر حجم الخلية سهل حصولها على الغذاء والتخلص من الفضلات، واستطاعت الحفاظ على بقائها بسهولة.", r:["مساحة السطح","نسبة مساحة السطح إلى الحجم"]},
+ {t:"نسبة مساحة السطح إلى الحجم", a:["نسبة المساحة الى الحجم"], s:"أحياء ٤ · التكاثر الخلوي · ص ٥٦",
+  d:"مع نمو الخلية يزداد حجمها بينما تقل نسبة مساحة سطحها، وهي <b>علاقة عكسية</b>.", r:["حجم الخلية","مساحة السطح"]}
+];
+
+/* ===== تطبيع النص العربي ===== */
+function norm(x){
+  return (x||"")
+   .replace(/[ً-ْـٰ]/g,"")   // تشكيل وتطويل
+   .replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
+   .replace(/[ؤئ]/g,"ء")
+   .replace(/[^ء-يa-zA-Z0-9 ]/g," ")
+   .replace(/\s+/g," ").trim();
+}
+function stripAl(x){ return x.replace(/(^|\s)(ال)/g,"$1"); }
+function key(x){ return stripAl(norm(x)); }
+
+const IDX = DATA.map(e=>({
+  e, k:key(e.t), ak:(e.a||[]).map(key), dk:key(e.d.replace(/<[^>]+>/g,""))
+}));
+const BY = {}; DATA.forEach(e=>BY[key(e.t)]=e);
+
+const STOP = new Set(["وش","ايش","وشو","شنو","يعني","معني","معنا","تعريف","عرف","ما","ماهو",
+ "هو","هي","هذا","هذه","من","عن","في","على","اشرح","وضح","كيف","ليش","لماذا","لمادا","ايه","ما هو"]);
+
+function scoreEntry(it, q, words){
+  if(it.k === q || it.ak.includes(q)) return 1000;
+  if(it.k.length > 2 && q.includes(it.k)) return 900;
+  if(it.ak.some(a => a.length > 2 && q.includes(a))) return 880;
+  if(q.length > 2 && it.k.includes(q)) return 820;
+  if(q.length > 2 && it.ak.some(a => a.includes(q))) return 800;
+  const toks = (it.k + " " + it.ak.join(" ")).split(" ").filter(t => t.length > 2);
+  let hits = 0;
+  words.forEach(w => { if(toks.some(t => t.includes(w) || w.includes(t))) hits++; });
+  if(hits) return 400 + hits * 30;
+  let dh = 0;
+  words.forEach(w => { if(it.dk.includes(w)) dh++; });
+  if(dh) return 100 + dh * 10;
+  return 0;
+}
+
+function search(raw){
+  const q = key(raw);
+  if(!q) return {hit:[], near:[]};
+  const words = q.split(" ").filter(w => w.length > 2 && !STOP.has(w));
+  const all = [];
+  IDX.forEach(it => {
+    const sc = scoreEntry(it, q, words);
+    if(sc) all.push({sc, e:it.e});
+  });
+  all.sort((a,b) => b.sc - a.sc || a.e.t.length - b.e.t.length);
+  return {
+    hit:  all.filter(o => o.sc >= 400).slice(0,6).map(o => o.e),
+    near: all.filter(o => o.sc < 400).slice(0,5).map(o => o.e)
+  };
+}
+
+/* ===== العرض ===== */
+const q = document.getElementById('q'),
+      out = document.getElementById('out'),
+      meta = document.getElementById('meta'),
+      clr = document.getElementById('clr');
+
+const SUGG = ["الكروموسوم","النوع","الفطريات","الطور البيني","فوق المملكة","التسمية الثنائية"];
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function chips(list){
+  return '<div class="chips">' + list.map(t=>
+    `<button class="chip" data-go="${esc(t)}">${esc(t)}</button>`).join('') + '</div>';
+}
+
+function card(e){
+  return `<div class="card">
+    <h2>${esc(e.t)}</h2>
+    <div class="def">${e.d}</div>
+    <div class="src">${esc(e.s)}</div>
+    ${e.r && e.r.length ? `<div class="rel"><div class="lb">له صلة بـ</div>${chips(e.r)}</div>` : ''}
+  </div>`;
+}
+
+function render(){
+  const v = q.value.trim();
+  clr.classList.toggle('on', !!v);
+  if(!v){
+    meta.textContent = `${DATA.length} مصطلحاً في البنك`;
+    out.innerHTML = `<div class="empty">ابدأ بالكتابة، أو جرّب أحد هذه</div>` + chips(SUGG);
+    return;
+  }
+  const {hit, near} = search(v);
+  if(hit.length){
+    meta.textContent = hit.length === 1 ? 'نتيجة واحدة' : `${hit.length} نتائج`;
+    out.innerHTML = hit.map(card).join('');
+    return;
+  }
+  meta.textContent = '';
+  let html = `<div class="none">
+      <b>هذا المصطلح غير موجود في مادّتنا.</b>
+      <p>وهذا لا يعني أنه خطأ، بل أنه لم يُضَف بعد. ولا يُعطى جواب من خارج الكتاب حتى لا يختلف عمّا في الاختبار.</p>
+    </div>`;
+  if(near.length){
+    html += `<div class="empty">لكن الكلمة وردت في شرح هذه المصطلحات</div>` + chips(near.map(e => e.t));
+  } else {
+    html += `<div class="empty">جرّب أحد هذه</div>` + chips(SUGG);
+  }
+  out.innerHTML = html;
+}
+
+q.addEventListener('input', render);
+clr.addEventListener('click', ()=>{ q.value=''; q.focus(); render(); });
+document.addEventListener('click', ev=>{
+  const b = ev.target.closest('[data-go]');
+  if(!b) return;
+  q.value = b.dataset.go;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+render();
+</script>
+</body>
+</html>
