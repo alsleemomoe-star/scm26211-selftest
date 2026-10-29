@@ -124,7 +124,15 @@ mark{background:var(--keybg);color:inherit;border-radius:3px;padding:0 2px}
 /* ===== قواعد الرسم البصري ===== */
 .vz{margin-bottom:22px}
 .vz > h3{font-size:15px;font-weight:800;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.vz > h3 .hnt{font-size:11.5px;font-weight:500;color:var(--key);background:var(--keybg);
+  border-radius:999px;padding:2px 9px;white-space:nowrap}
 .vz > h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.topbar{display:flex;gap:8px;align-items:center;margin:2px 0 12px;flex-wrap:wrap}
+.paper{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--key);color:var(--key);
+  background:var(--keybg);border-radius:9px;padding:7px 12px;font:inherit;font-size:13px;
+  font-weight:700;cursor:pointer}
+.paper svg{width:14px;height:14px;fill:currentColor}
+.paper small{font-weight:400;opacity:.8;font-size:11.5px}
 .idea{background:var(--soft);border-right:3px solid var(--key);border-radius:0 10px 10px 0;
   padding:12px 14px;font-size:14.5px;line-height:1.75;margin-bottom:22px}
 .idea b{color:var(--key)}
@@ -498,7 +506,7 @@ const TOPICS = [{
        d:"حقيقية النوى · بعضها سليلوز · وحيدة الخلية أو عديدة · ذاتية أو غير ذاتية التغذية · مثال: براميسيوم"}
     ]}
   ]},
-  {k:"matrix", h:"جدول المقارنة", hint:"اضغط اسم المملكة ليظهر عمودها وحده",
+  {k:"matrix", h:"جدول المقارنة", hint:"اضغط اسم المملكة",
    cols:[{n:"البدائيات",c:"pr"},{n:"البكتيريا",c:"pr"},{n:"الطلائعيات",c:"eu"},
          {n:"الفطريات",c:"eu"},{n:"النباتات",c:"eu"},{n:"الحيوانات",c:"eu"}],
    rows:[
@@ -596,7 +604,7 @@ const TOPICS = [{
     {n:"الزواحف", s:"جلد جاف حرشفي", d:"متغيرة · رئتان · قلب ثلاث حجرات والتمساحيات أربع · إخصاب داخلي · جلد جاف حرشفي وانسلاخ · بيضة رهلية"}
    ]}
   ]},
-  {k:"matrix", h:"جدول المقارنة الكبير", hint:"اضغط اسم الطائفة ليظهر عمودها وحده",
+  {k:"matrix", h:"جدول المقارنة الكبير", hint:"اضغط اسم الطائفة",
    cols:[{n:"الأسماك",c:"pr"},{n:"البرمائيات",c:"pr"},{n:"الزواحف",c:"pr"},{n:"الطيور",c:"eu"},{n:"الثدييات",c:"eu"}],
    rows:[
     {h:"درجة الحرارة", v:["متغيرة","متغيرة","متغيرة","ثابتة 41°","ثابتة"], df:[3,4]},
@@ -780,7 +788,7 @@ function unitView(u){
 
 /* ===== رسم كتل الموضوع ===== */
 function vText(b, i){
-  return `<div class="vz"><h3>${esc(b.h)}</h3>
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">اضغط العنوان ليُفتح</em></h3>
     ${b.secs.map((x,j) => `<div class="exl" data-ex="${i}-${j}">
       <button><span>${esc(x.t)}</span><span class="cv">+</span></button>
       <div class="bd" hidden>${x.p.map(y => `<p>${y}</p>`).join('')}</div>
@@ -788,7 +796,7 @@ function vText(b, i){
 }
 function vLadder(b, i){
   const n = b.items.length;
-  return `<div class="vz"><h3>${esc(b.h)}</h3>
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">اضغط أي مستوى لتعريفه</em></h3>
     <div class="lad2" data-lad="${i}">
       ${b.items.map((x,j) => `<button class="rung" data-rung="${j}">
          <span class="bar" style="width:${Math.round(100 - j*(52/(n-1)))}%"><span>${esc(x.n)}</span></span>
@@ -796,11 +804,11 @@ function vLadder(b, i){
     </div>
     <div class="axis"><span>&#8593; ${esc(b.hi)}</span><span>${esc(b.lo)} &#8595;</span></div>
     <div class="detail" id="ld-${i}" hidden></div>
-    <div class="keyline">من الأكبر إلى الأصغر: <b>${esc(b.key)}</b> &nbsp;·&nbsp; اضغط أي مستوى لتعريفه</div>
+    <div class="keyline">من الأكبر إلى الأصغر: <b>${esc(b.key)}</b></div>
   </div>`;
 }
 function vTree(b, i){
-  return `<div class="vz"><h3>${esc(b.h)}</h3>
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">اضغط الاسم لتظهر صفاته</em></h3>
     <div class="tree2">
       <div class="node">${esc(b.q)}</div><div class="stem"></div>
       <div class="fork">
@@ -817,18 +825,17 @@ function vTree(b, i){
   </div>`;
 }
 function vMatrix(b, i){
-  return `<div class="vz"><h3>${esc(b.h)}</h3>
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">${esc(b.hint)}</em></h3>
     <div class="mx"><table data-mx="${i}">
       <tr><td class="h"></td>${b.cols.map((c,j) =>
         `<th class="${c.c}" data-col="${j}">${esc(c.n)}</th>`).join('')}</tr>
       ${b.rows.map(r => `<tr><td class="h">${esc(r.h)}</td>${r.v.map((v,j) =>
         `<td class="${(r.df||[]).includes(j) ? 'df' : ''}" data-c="${j}">${esc(v)}</td>`).join('')}</tr>`).join('')}
     </table></div>
-    <div class="mxh">${esc(b.hint)}</div>
   </div>`;
 }
 function vTraps(b){
-  return `<div class="vz"><h3>${esc(b.h)}</h3>
+  return `<div class="vz"><h3>${esc(b.h)}<em class="hnt">احفظها آخر شيء</em></h3>
     ${b.items.map(x => `<div class="trp"><span class="x">!</span><div>${x}</div></div>`).join('')}</div>`;
 }
 function drawViz(t){
@@ -839,7 +846,7 @@ function drawViz(t){
     b.k === 'tree'   ? vTree(b,i)   :
     b.k === 'matrix' ? vMatrix(b,i) :
     b.k === 'traps'  ? vTraps(b)    : '').join('')
-   + (t.sheet ? `<button class="pdfl" data-png="1">افتح الورقة المطبوعة لهذا الموضوع</button>` : '');
+;
 }
 
 let openTopic = null, tab = 'sheet';
@@ -853,6 +860,9 @@ function topicView(t){
       <h2>${esc(t.name)}</h2>
       <div class="where">في الكتاب: ${esc(t.unit)} · صفحة ${esc(t.page)}</div>
       ${t.merge ? `<div class="merged"><b>هذا جمعٌ منّا لا عنوانٌ في الكتاب.</b> ${esc(t.merge)}</div>` : ''}
+      ${t.sheet ? `<div class="topbar"><button class="paper" data-png="1">
+         <svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z" opacity=".25"/><path d="M6 2h8l4 4v16H6zm2 7h8v1.6H8zm0 4h8v1.6H8zm0 4h5v1.6H8z"/></svg>
+         الورقة المطبوعة <small>افتحها على جهاز آخر</small></button></div>` : ''}
       <div class="tabs">
         <button class="tab${tab==='sheet'?' on':''}" data-tab="sheet">ملخّصنا</button>
         <button class="tab${tab==='qs'?' on':''}" data-tab="qs">الأسئلة (${t.qs.length})</button>
