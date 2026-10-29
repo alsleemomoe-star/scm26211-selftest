@@ -104,6 +104,77 @@ mark{background:var(--keybg);color:inherit;border-radius:3px;padding:0 2px}
 .exp{font-size:13.5px;color:var(--mut);border-right:3px solid var(--key);
   background:var(--soft);border-radius:8px;padding:9px 12px;margin-top:4px;line-height:1.7}
 .score{text-align:center;font-size:14px;color:var(--mut);padding:12px}
+/* ===== قواعد الرسم البصري ===== */
+.vz{margin-bottom:22px}
+.vz > h3{font-size:15px;font-weight:800;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.vz > h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.idea{background:var(--soft);border-right:3px solid var(--key);border-radius:0 10px 10px 0;
+  padding:12px 14px;font-size:14.5px;line-height:1.75;margin-bottom:22px}
+.idea b{color:var(--key)}
+/* الهرم */
+.lad2{display:flex;flex-direction:column;gap:4px}
+.rung{display:flex;align-items:center;gap:9px;cursor:pointer;border:0;background:transparent;
+  padding:0;font:inherit;text-align:right;width:100%}
+.rung .bar{height:30px;border-radius:7px;background:var(--keybg);border:1px solid transparent;
+  display:flex;align-items:center;justify-content:center;transition:.15s;flex:none}
+.rung .bar span{font-size:13px;font-weight:700;color:var(--key);white-space:nowrap}
+.rung:hover .bar,.rung.on .bar{border-color:var(--key)}
+.rung.on .bar{background:var(--key)}
+.rung.on .bar span{color:#fff}
+.rung .d{font-size:12.5px;color:var(--mut);flex:1;min-width:0}
+.axis{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin:6px 2px 0}
+.keyline{background:var(--keybg);border-radius:9px;padding:9px 12px;margin-top:11px;font-size:13.5px}
+.keyline b{color:var(--key);font-size:16px;letter-spacing:1.5px}
+/* الشجرة */
+.tree2{display:flex;flex-direction:column;align-items:center}
+.node{border:1.5px solid var(--ink);border-radius:9px;padding:8px 14px;font-size:14px;font-weight:700;
+  background:var(--bg);text-align:center}
+.stem{width:2px;height:16px;background:var(--line)}
+.fork{display:flex;width:100%;gap:10px}
+.limb{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.limb::before{content:"";position:absolute;top:0;height:2px;background:var(--line);width:50%}
+.limb:first-child::before{right:50%}
+.limb:last-child::before{left:50%}
+.tag{font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px;margin-top:16px}
+.tag.p{background:#FBF1DC;color:#8A5E08}
+.tag.e{background:#E3EEF7;color:#17557E}
+:root[data-theme="dark"] .tag.p,
+:root:not([data-theme="light"]) .tag.p{background:#3A2E12;color:#E0B64A}
+:root[data-theme="dark"] .tag.e,
+:root:not([data-theme="light"]) .tag.e{background:#15293A;color:#79B6E0}
+.ask{font-size:12.5px;color:var(--mut);margin:7px 0;text-align:center}
+.leaves{display:flex;flex-direction:column;gap:6px;width:100%}
+.leaf2{border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;
+  background:transparent;font:inherit;text-align:right;width:100%}
+.leaf2:hover{border-color:var(--key)}
+.leaf2.on{border-color:var(--key);background:var(--keybg)}
+.leaf2 b{font-size:13.5px;display:block}
+.leaf2 span{font-size:11.5px;color:var(--mut)}
+.detail{border:1px solid var(--key);background:var(--keybg);border-radius:10px;padding:11px 13px;
+  margin-top:12px;font-size:13.5px;line-height:1.7}
+.detail b{display:block;margin-bottom:3px}
+/* الجدول */
+.mx{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.mx table{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;font-size:12.5px}
+.mx th,.mx td{border:1px solid var(--line);padding:7px 8px;text-align:center;line-height:1.5}
+.mx th{background:var(--soft);font-weight:700;cursor:pointer;white-space:nowrap}
+.mx th.pr{color:#8A5E08}.mx th.eu{color:#17557E}
+:root[data-theme="dark"] .mx th.pr,:root:not([data-theme="light"]) .mx th.pr{color:#E0B64A}
+:root[data-theme="dark"] .mx th.eu,:root:not([data-theme="light"]) .mx th.eu{color:#79B6E0}
+.mx td.h{text-align:right;font-weight:700;background:var(--soft);white-space:nowrap;
+  position:sticky;right:0;z-index:2;box-shadow:-1px 0 0 var(--line)}
+.mx .hi{background:var(--keybg);box-shadow:inset 0 0 0 1px var(--key)}
+.mx td.df{font-weight:700}
+.mxh{font-size:12px;color:var(--mut);margin-top:7px;text-align:center}
+/* المصائد */
+.trp{display:flex;gap:9px;border:1px solid var(--line);border-right:3px solid var(--warn);
+  border-radius:0 9px 9px 0;background:var(--soft);padding:9px 12px;margin-bottom:7px;font-size:13.5px;line-height:1.65}
+.trp .x{color:var(--warn);font-weight:800;flex:none}
+.trp b{color:var(--warn)}
+.pdfl{display:block;text-align:center;border:1px dashed var(--line);border-radius:10px;
+  padding:11px;font-size:13px;color:var(--key);cursor:pointer;background:transparent;
+  font:inherit;width:100%;margin-top:4px}
+
 
 </style>
 </head>
@@ -222,6 +293,54 @@ const DATA = [
 const TOPICS = [{
  id:"u1-02", unit:"أحياء 1", name:"تنظيم تنوّع الحياة", page:"6",
  sheet:"sheets/u1-02.webp",
+ viz:[
+  {k:"idea", t:"التصنيف وضعُ المخلوقات الحية في مجموعات بناءً على خصائصها. وكل ما في هذا الموضوع جواب عن أربعة أسئلة: من رتّبها، وكيف تُسمّى، وما مستويات تصنيفها، وما المجموعات التي نتجت."},
+  {k:"ladder", h:"مستويات التصنيف", key:"فمشط رفجن", lo:"الأصغر", hi:"الأكبر", items:[
+    {n:"فوق المملكة", d:"أوسع المصنّفات، تضمّ مملكة أو أكثر. وعددها ٣"},
+    {n:"المملكة", d:"تضمّ شعباً أو أقساماً. وعددها ٦"},
+    {n:"الشعبة أو القسم", d:"تضمّ طوائف متقاربة. و«القسم» للبكتيريا والنباتات"},
+    {n:"الطائفة", d:"تضمّ رتباً متقاربة"},
+    {n:"الرتبة", d:"تضمّ فصائل متقاربة"},
+    {n:"الفصيلة", d:"المصنّف الأعلى من الجنس، وتتكوّن من أجناس متشابهة"},
+    {n:"الجنس", d:"أنواع مترابطة متشابهة تشترك خصائصها"},
+    {n:"النوع", d:"متشابهة في الشكل والتركيب، تتزاوج وتنتج نسلاً خصباً"}
+  ]},
+  {k:"tree", h:"كيف تعرف المملكة", q:"هل النواة حقيقية؟", branches:[
+    {tag:"لا — بدائية النوى", cls:"p", ask:"ثم: هل في الجدار ببتيدوجلايكان؟", leaves:[
+      {n:"البكتيريا", s:"نعم، فيه ببتيدوجلايكان",
+       d:"بدائية النوى · جدارها فيه ببتيدوجلايكان · وحيدة الخلية · ذاتية أو غير ذاتية التغذية · مثال: البكتيريا الكاذبة"},
+      {n:"البدائيات", s:"لا، بدون ببتيدوجلايكان",
+       d:"بدائية النوى · جدارها بدون ببتيدوجلايكان · وحيدة الخلية · ذاتية أو غير ذاتية التغذية · مثال: بدائيات منتجة للميثان"}
+    ]},
+    {tag:"نعم — حقيقية النوى", cls:"e", ask:"ثم: هل لها جدار؟ وممّ يتكوّن؟", leaves:[
+      {n:"الحيوانات", s:"لا جدار خلوي",
+       d:"حقيقية النوى · لا جدار · عديدة الخلايا · غير ذاتية التغذي · مثال: دودة الأرض"},
+      {n:"الفطريات", s:"جدار من كايتين",
+       d:"حقيقية النوى · كايتين · غالباً عديدة الخلايا · غير ذاتية التغذي · مثال: فطر المشروم"},
+      {n:"النباتات", s:"جدار من سليلوز دائماً",
+       d:"حقيقية النوى · سليلوز · عديدة الخلايا · ذاتية التغذي · مثال: حزازيات"},
+      {n:"الطلائعيات", s:"بعضها فيه سليلوز",
+       d:"حقيقية النوى · بعضها سليلوز · وحيدة الخلية أو عديدة · ذاتية أو غير ذاتية التغذية · مثال: براميسيوم"}
+    ]}
+  ]},
+  {k:"matrix", h:"جدول المقارنة", hint:"اضغط اسم المملكة ليظهر عمودها وحده",
+   cols:[{n:"البدائيات",c:"pr"},{n:"البكتيريا",c:"pr"},{n:"الطلائعيات",c:"eu"},
+         {n:"الفطريات",c:"eu"},{n:"النباتات",c:"eu"},{n:"الحيوانات",c:"eu"}],
+   rows:[
+    {h:"فوق المملكة", v:["البدائيات","البكتيريا","حقيقية النوى","حقيقية النوى","حقيقية النوى","حقيقية النوى"]},
+    {h:"جدار الخلية", v:["بدون ببتيدوجلايكان","ببتيدوجلايكان","بعضها سليلوز","كايتين","سليلوز","لا جدار"], df:[1,2,3,5]},
+    {h:"عدد الخلايا", v:["وحيدة","وحيدة","وحيدة أو عديدة","غالباً عديدة","عديدة","عديدة"], df:[2,3]},
+    {h:"التغذية", v:["ذاتية أو غير ذاتية","ذاتية أو غير ذاتية","ذاتية أو غير ذاتية","غير ذاتية","ذاتية","غير ذاتية"], df:[4]}
+   ]},
+  {k:"traps", h:"مصائد الاختبار", items:[
+   "<b>ثلاثة فوق ممالك وستّ ممالك.</b> والقسمة غير متساوية: بدائية النوى مملكتان، وحقيقية النوى أربع.",
+   "<b>الشعبة والقسم اسمان لمستوى واحد.</b> ويُستعمل «القسم» في تصنيف البكتيريا والنباتات.",
+   "<b>«ذاتية أو غير ذاتية» ثلاث ممالك</b> لا اثنتان: البدائيات والبكتيريا والطلائعيات.",
+   "<b>الفطريات «غالباً» عديدة الخلايا</b> لا دائماً. والطلائعيات «وحيدة أو عديدة».",
+   "<b>لينيوس أوّل من وضع نظاماً رسميّاً</b> لا أوّل من صنّف، فأرسطو صنّف قبله.",
+   "<b>الاسم العلمي مائل في المطبوع، وتحته خطّ في خطّ اليد.</b>"
+  ]}
+ ],
  qs:[
   {p:"مستوًى تصنيفي أصغر من الرتبة وأكبر من الجنس. ما هو؟",
    o:["الطائفة","الفصيلة","الشعبة","النوع"], c:1,
@@ -382,15 +501,69 @@ function unitView(u){
 }
 
 
+
+/* ===== رسم كتل الموضوع ===== */
+function vLadder(b, i){
+  const n = b.items.length;
+  return `<div class="vz"><h3>${esc(b.h)}</h3>
+    <div class="lad2" data-lad="${i}">
+      ${b.items.map((x,j) => `<button class="rung" data-rung="${j}">
+         <span class="bar" style="width:${Math.round(100 - j*(52/(n-1)))}%"><span>${esc(x.n)}</span></span>
+         </button>`).join('')}
+    </div>
+    <div class="axis"><span>&#8593; ${esc(b.hi)}</span><span>${esc(b.lo)} &#8595;</span></div>
+    <div class="detail" id="ld-${i}" hidden></div>
+    <div class="keyline">من الأكبر إلى الأصغر: <b>${esc(b.key)}</b> &nbsp;·&nbsp; اضغط أي مستوى لتعريفه</div>
+  </div>`;
+}
+function vTree(b, i){
+  return `<div class="vz"><h3>${esc(b.h)}</h3>
+    <div class="tree2">
+      <div class="node">${esc(b.q)}</div><div class="stem"></div>
+      <div class="fork">
+        ${b.branches.map((br,bi) => `<div class="limb">
+          <span class="tag ${br.cls}">${esc(br.tag)}</span>
+          <div class="ask">${esc(br.ask)}</div>
+          <div class="leaves">
+            ${br.leaves.map((lf,li) => `<button class="leaf2" data-leaf="${i}-${bi}-${li}">
+               <b>${esc(lf.n)}</b><span>${esc(lf.s)}</span></button>`).join('')}
+          </div></div>`).join('')}
+      </div>
+    </div>
+    <div class="detail" id="lf-${i}" hidden></div>
+  </div>`;
+}
+function vMatrix(b, i){
+  return `<div class="vz"><h3>${esc(b.h)}</h3>
+    <div class="mx"><table data-mx="${i}">
+      <tr><td class="h"></td>${b.cols.map((c,j) =>
+        `<th class="${c.c}" data-col="${j}">${esc(c.n)}</th>`).join('')}</tr>
+      ${b.rows.map(r => `<tr><td class="h">${esc(r.h)}</td>${r.v.map((v,j) =>
+        `<td class="${(r.df||[]).includes(j) ? 'df' : ''}" data-c="${j}">${esc(v)}</td>`).join('')}</tr>`).join('')}
+    </table></div>
+    <div class="mxh">${esc(b.hint)}</div>
+  </div>`;
+}
+function vTraps(b){
+  return `<div class="vz"><h3>${esc(b.h)}</h3>
+    ${b.items.map(x => `<div class="trp"><span class="x">!</span><div>${x}</div></div>`).join('')}</div>`;
+}
+function drawViz(t){
+  return t.viz.map((b,i) =>
+    b.k === 'idea'   ? `<div class="idea">${esc(b.t)}</div>` :
+    b.k === 'ladder' ? vLadder(b,i) :
+    b.k === 'tree'   ? vTree(b,i)   :
+    b.k === 'matrix' ? vMatrix(b,i) :
+    b.k === 'traps'  ? vTraps(b)    : '').join('')
+   + `<button class="pdfl" data-png="1">افتح الورقة المطبوعة لهذا الموضوع</button>`;
+}
+
 let openTopic = null, tab = 'sheet';
 
 function topicView(t){
   meta.textContent = '';
   secs.style.display = 'none';
-  const body = tab === 'sheet'
-    ? `<div class="sheet"><img src="${t.sheet}" alt="ملخّص ${esc(t.name)}" loading="lazy"></div>
-       <div class="hint">اضغط الصورة لفتحها بحجمها الكامل</div>`
-    : `<div id="qa"></div>`;
+  const body = tab === 'sheet' ? drawViz(t) : `<div id="qa"></div>`;
   out.innerHTML = `<div class="tv">
       <button class="back" data-back="1">&#8594; رجوع إلى البحث</button>
       <h2>${esc(t.name)}</h2>
@@ -483,7 +656,41 @@ document.addEventListener('click', ev=>{
     const c = pick.closest('.qa');
     answer(c, openTopic, +c.dataset.q, +pick.dataset.pick); return;
   }
-  if(ev.target.closest('.sheet img') && openTopic){ window.open(openTopic.sheet, '_blank'); return; }
+  if(ev.target.closest('[data-png]') && openTopic){ window.open(openTopic.sheet, '_blank'); return; }
+  const rg = ev.target.closest('[data-rung]');
+  if(rg && openTopic){
+    const lad = rg.closest('[data-lad]'), bi = +lad.dataset.lad, j = +rg.dataset.rung;
+    const was = rg.classList.contains('on'), box = document.getElementById('ld-' + bi);
+    lad.querySelectorAll('.rung').forEach(r => r.classList.remove('on'));
+    if(was){ box.hidden = true; }
+    else {
+      rg.classList.add('on');
+      const x = openTopic.viz[bi].items[j];
+      box.innerHTML = `<b>${esc(x.n)}</b>${esc(x.d)}`; box.hidden = false;
+    }
+    return;
+  }
+  const lf = ev.target.closest('[data-leaf]');
+  if(lf && openTopic){
+    const [bi, br, li] = lf.dataset.leaf.split('-').map(Number);
+    const x = openTopic.viz[bi].branches[br].leaves[li];
+    document.querySelectorAll('.leaf2').forEach(e => e.classList.remove('on'));
+    lf.classList.add('on');
+    const d = document.getElementById('lf-' + bi);
+    d.innerHTML = `<b>${esc(x.n)}</b>${esc(x.d)}`; d.hidden = false;
+    return;
+  }
+  const ch = ev.target.closest('[data-col]');
+  if(ch){
+    const tb = ch.closest('table'), j = +ch.dataset.col;
+    const on = ch.classList.contains('hi');
+    tb.querySelectorAll('.hi').forEach(e => e.classList.remove('hi'));
+    if(!on){
+      ch.classList.add('hi');
+      tb.querySelectorAll(`td[data-c="${j}"]`).forEach(e => e.classList.add('hi'));
+    }
+    return;
+  }
   const u = ev.target.closest('[data-unit]');
   if(u){
     activeUnit = activeUnit === u.dataset.unit ? null : u.dataset.unit;
