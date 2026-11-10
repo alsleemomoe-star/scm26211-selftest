@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b5d4e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="متابعة الخطة 238">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>متابعة خطة التحسين — الابتدائية 238</title>
+<style>
+:root{
+ --ink:#16232b; --mut:#5c7280; --acc:#0b5d4e; --acc2:#0e8f76; --warn:#b4531f;
+ --red:#b42f1f; --line:#d8e2e6; --bg:#eef2f3; --card:#fff; --soft:#f3f8f8;
+ --ok:#1e7a4a; --go:#2f6fb5; --low:#fbe3d5;
+ --topH:48px; --headH:93px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:"Sakkal Majalla","Tajawal","Segoe UI",system-ui,-apple-system,"Noto Sans Arabic",Tahoma,sans-serif;
+ background:var(--bg);color:var(--ink);direction:rtl;font-size:16px;
+ -webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button,input,select,textarea{font-family:inherit;font-size:inherit;direction:rtl}
+button{cursor:pointer}
+
+/* ===== الشريط العلوي ===== */
+.top{position:sticky;top:0;z-index:40;background:var(--acc);color:#fff;
+ padding:10px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+ box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.top h1{font-size:18px;font-weight:700;margin-left:auto}
+.short,.menu{display:none}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.menu{background:rgba(255,255,255,.16);border:none;color:#fff;border-radius:9px;
+ width:44px;height:44px;font-size:22px;line-height:1;flex:none}
+.top .who{display:flex;align-items:center;gap:6px;font-size:13px;
+ background:rgba(255,255,255,.14);border-radius:14px;padding:3px 10px}
+.top .who input{background:transparent;border:none;color:#fff;width:120px;outline:none}
+.top .who input::placeholder{color:#cde6e0}
+.btn{background:rgba(255,255,255,.16);border:none;color:#fff;border-radius:7px;
+ padding:6px 12px;font-size:13.5px}
+.btn:hover{background:rgba(255,255,255,.3)}
+.btn.solid{background:#fff;color:var(--acc);font-weight:700}
+
+/* ===== التبويبات ===== */
+.tabs{display:flex;gap:4px;background:#fff;padding:0 16px;border-bottom:1px solid var(--line);
+ position:sticky;top:var(--topH);z-index:35;flex-wrap:wrap}
+.tab{padding:11px 18px;font-size:15px;color:var(--mut);border-bottom:3px solid transparent;
+ background:none;border-top:none;border-right:none;border-left:none}
+.tab.on{color:var(--acc);border-bottom-color:var(--acc);font-weight:700}
+
+.wrap{max-width:1400px;margin:0 auto;padding:16px}
+.page{display:none}.page.on{display:block}
+
+/* ===== العدّادات ===== */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--card);border-radius:10px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card .n{font-size:30px;font-weight:800;line-height:1.1}
+.card .k{font-size:13px;color:var(--mut);margin-top:4px}
+.c-ok .n{color:var(--ok)} .c-go .n{color:var(--go)}
+.c-no .n{color:var(--mut)} .c-late .n{color:var(--red)}
+
+h2.sec{font-size:17px;color:var(--acc);margin:18px 0 8px;font-weight:700}
+.panel{background:var(--card);border-radius:10px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+
+/* ===== بطاقات المؤشّرات ===== */
+.inds{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px}
+.ind{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.06);
+ border-top:4px solid var(--warn);cursor:pointer;display:flex;flex-direction:column;gap:8px}
+.ind:hover{box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.ind .hd{display:flex;align-items:center;gap:8px}
+.ind .cd{font-size:14px;font-weight:700;color:var(--mut)}
+.ind .lv{margin-right:auto;background:var(--low);color:var(--warn);font-size:12px;font-weight:700;
+ border-radius:11px;padding:2px 10px}
+.ind .big{font-size:38px;font-weight:800;line-height:1;color:var(--warn)}
+.ind .big small{font-size:13px;font-weight:400;color:var(--mut);margin-right:8px}
+.ind .tx{font-size:15.5px;font-weight:700;line-height:1.5}
+.ind .dm{font-size:13px;color:var(--mut)}
+.ind .ct{font-size:13.5px;color:var(--ink)}
+.ind .ct b{color:var(--ok)}
+.ind .go{font-size:12.5px;color:var(--acc2);font-weight:700;margin-top:2px}
+
+.bar{height:14px;background:#e7eef0;border-radius:8px;overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.bar .s-ok{background:var(--ok)} .bar .s-go{background:var(--go)} .bar .s-late{background:var(--red)}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--mut);margin-top:12px;flex-wrap:wrap}
+.dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-left:5px}
+
+/* ===== الجداول ===== */
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff}
+th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:right;vertical-align:top;font-size:14px}
+th{background:var(--acc);color:#fff;font-weight:700;font-size:13.5px}
+#tbl thead th{position:sticky;top:var(--headH);z-index:20}
+#tbl thead th:first-child{border-radius:10px 0 0 0}
+#tbl thead th:last-child{border-radius:0 10px 0 0}
+tr.row:hover{background:var(--soft);cursor:pointer}
+tr.grp td{background:var(--low);font-weight:700;font-size:14.5px;border-bottom:2px solid #f0c9b0}
+tr.grp .gp{color:var(--warn);font-size:16px}
+tr.grp .gn{font-weight:400;color:var(--mut);font-size:13px;margin-right:10px}
+td.c{text-align:center}
+#tbl td.h4,#tbl td.h5{font-size:13px}
+.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:11px;padding:2px 9px;white-space:nowrap}
+.p-no{background:#eceff0;color:#64757d}
+.p-go{background:#dde9f7;color:var(--go)}
+.p-ok{background:#d9efe3;color:var(--ok)}
+.p-late{background:#fbe0dc;color:var(--red)}
+.code{font-size:12px;color:var(--mut);white-space:nowrap}
+bdi.n{unicode-bidi:isolate;direction:ltr;white-space:nowrap}
+.tag{display:inline-block;font-size:11.5px;color:var(--warn);background:var(--low);
+ border-radius:9px;padding:1px 8px;margin-top:4px}
+
+/* ===== المرشّحات ===== */
+.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.filters select,.filters input{border:1px solid var(--line);border-radius:7px;padding:7px 10px;background:#fff;max-width:100%}
+.filters .count{margin-right:auto;color:var(--mut);font-size:13.5px}
+
+/* ===== باقي الخطة ===== */
+
+/* ===== النافذة المنبثقة ===== */
+.ov{position:fixed;inset:0;background:rgba(10,25,30,.55);display:none;z-index:60;
+ align-items:flex-start;justify-content:center;padding:24px;overflow:auto}
+.ov.on{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:860px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.modal header{background:var(--acc);color:#fff;padding:13px 18px;border-radius:12px 12px 0 0;
+ display:flex;align-items:center;gap:10px}
+.modal header h3{font-size:16px;font-weight:700;flex:1}
+.modal header button{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:6px;
+ width:30px;height:30px;font-size:17px}
+.modal .body{padding:18px}
+.ro{background:var(--soft);border-right:3px solid var(--acc2);border-radius:0 8px 8px 0;
+ padding:11px 14px;margin-bottom:14px;font-size:14px;line-height:1.7}
+.ro b{color:var(--acc)}
+.ro .need{margin:2px 14px 6px 0;color:var(--ink);font-size:13.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stseg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.stseg button{border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:8px;
+ padding:10px 4px;font-size:14.5px}
+.stseg button.on{font-weight:700}
+.stseg .b-no.on{background:#eceff0;border-color:#8a9aa2;color:#4d5d65}
+.stseg .b-go.on{background:#dde9f7;border-color:var(--go);color:var(--go)}
+.stseg .b-ok.on{background:#d9efe3;border-color:var(--ok);color:var(--ok)}
+.stseg .b-late.on{background:#fbe0dc;border-color:var(--red);color:var(--red)}
+.mproc{display:none}
+details.plan summary{display:none}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:4px;font-weight:700}
+label span{font-weight:400}
+.fld{margin-bottom:12px}
+.fld input,.fld select,.fld textarea{width:100%;border:1px solid var(--line);border-radius:8px;
+ padding:9px 11px;background:#fff}
+.fld textarea{min-height:64px;resize:vertical;line-height:1.6}
+.modal footer{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.modal footer .meta{margin-left:auto;font-size:12.5px;color:var(--mut)}
+.save{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-weight:700}
+.ghost{background:#fff;color:var(--mut);border:1px solid var(--line);border-radius:8px;padding:9px 16px}
+
+/* ===== استمارة 2 ===== */
+.f2 table{font-size:13px;min-width:760px}
+.f2 .scroll{overflow-x:auto}
+.f2 th,.f2 td{border:1px solid #b9c9cf}
+.f2 h2.ttl{text-align:center;font-size:19px;color:var(--acc);margin:6px 0 4px;font-weight:700}
+.f2 .scope{text-align:center;font-size:13px;color:var(--mut);margin-bottom:12px}
+.f2 h3{font-size:15px;color:var(--acc);margin:14px 0 6px}
+.f2 .sechead{background:#dcefe9;color:var(--acc);font-weight:700;text-align:center}
+.f2 .lbl{background:#eef5f3;font-weight:700;color:var(--acc)}
+.f2 ul{list-style:none}
+.f2 li{padding:2px 0;line-height:1.6}
+.f2 li:before{content:"• "}
+.f2 .sub{color:var(--mut);font-size:12px;padding-right:12px}
+.f2 [contenteditable]{outline:none;min-height:1.4em}
+.f2 [contenteditable]:focus{background:#fffbe9}
+.f2 .recs{background:#fff;border:1px solid #b9c9cf;padding:10px 12px;min-height:70px;line-height:1.8;white-space:pre-wrap}
+.f2 .recs:empty:before{content:"اكتبي التوصيات والمقترحات هنا…";color:#9aa9b1}
+.opts{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--acc);border-radius:8px;overflow:hidden}
+.seg button{border:none;background:#fff;color:var(--acc);padding:7px 14px;font-size:13.5px}
+.seg button.on{background:var(--acc);color:#fff;font-weight:700}
+.opts label{display:inline-flex;align-items:center;gap:6px;margin:0;font-weight:400;font-size:13.5px;color:var(--ink)}
+.warnbox{background:#fdf1ec;border-right:3px solid var(--warn);border-radius:0 8px 8px 0;
+ padding:11px 14px;font-size:13.5px;line-height:1.7;margin-bottom:12px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--acc);color:#fff;padding:11px 18px;
+ border-radius:8px;z-index:80;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;font-size:14px}
+.toast.on{display:block}
+[hidden]{display:none!important}
+.note{background:#fff7e0;border:1px solid #e6cf8a;border-radius:10px;padding:12px 14px;margin-bottom:12px;
+ font-size:14.5px;line-height:1.85}
+.note button{display:block;margin-top:8px;background:var(--acc);color:#fff;border:none;border-radius:9px;
+ padding:11px 22px;font-size:15px;font-weight:700}
+
+@media (max-width:820px){
+ /* الرأس: سطر واحد، والأزرار في قائمة */
+ .top{flex-wrap:nowrap;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top))}
+ .top h1{font-size:16.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;margin:0}
+ .long{display:none}.short{display:inline}
+ .menu{display:block}
+ .actions{display:none;position:absolute;top:100%;right:0;left:0;background:var(--acc);
+  padding:12px;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;
+  box-shadow:0 10px 18px rgba(0,0,0,.25);border-top:1px solid rgba(255,255,255,.18)}
+ .actions.open{display:flex}
+ .actions .btn{padding:14px;font-size:16px;border-radius:10px}
+ .top .who{font-size:15px;padding:11px 12px;border-radius:10px;min-width:0}
+ .top .who input{font-size:16px;flex:1;width:auto;min-width:0;padding:8px 0;min-height:40px}
+
+ /* التبويبات: شريط سفلي */
+ .tabs{position:fixed;top:auto;bottom:0;right:0;left:0;padding:0 4px env(safe-area-inset-bottom);
+  border-bottom:none;border-top:1px solid var(--line);box-shadow:0 -3px 12px rgba(0,0,0,.08);
+  flex-wrap:nowrap;gap:0}
+ .tab{flex:1;padding:15px 4px 13px;font-size:14.5px;border-bottom:none;border-top:3px solid transparent}
+ .tab.on{border-top-color:var(--acc);border-bottom-color:transparent}
+ .wrap{padding:12px 12px calc(86px + env(safe-area-inset-bottom))}
+
+ /* اللوحة */
+ .cards{grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+ .card{padding:10px 6px;text-align:center}
+ .card .n{font-size:24px}
+ .card .k{font-size:12px;line-height:1.35}
+ .inds{grid-template-columns:1fr;gap:10px}
+ .ind{padding:14px}
+ .ind .big{font-size:34px}
+ .ind .go{font-size:14px;padding-top:4px}
+ .legend{font-size:12px;gap:10px}
+
+ /* المرشّحات */
+ .filters{gap:8px}
+ .filters select,.filters input{font-size:16px;padding:11px 10px;border-radius:10px;min-width:0}
+ #find,#fq{flex:1 1 100%;min-width:0!important}
+ #fst,#fresp{flex:1 1 44%}
+ .filters .count{flex:1 1 100%;margin:0}
+
+ /* البرامج: بطاقة لكل برنامج */
+ #tbl,#tbl tbody,#tbl tr,#tbl td{display:block}
+ #tbl{background:transparent}
+ #tbl thead{display:none}
+ #tbl tr.grp{position:sticky;top:var(--topH);z-index:15;margin-top:14px}
+ #tbl tr.grp td{border-radius:10px;border:1px solid #f0c9b0;padding:9px 12px;font-size:14px;
+  line-height:1.6;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+ #tbl tr.grp .gn{display:block;margin:2px 0 0}
+ #tbl tr.row{display:grid;grid-template-columns:30px 1fr auto;gap:5px 10px;
+  grid-template-areas:"no pr pr" ". rs rs" ". du du" ". st pc";
+  background:#fff;border-radius:12px;margin:8px 0;padding:13px 12px 12px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);border-right:5px solid #c9d3d8}
+ #tbl tr.row.s-ok{border-right-color:var(--ok)}
+ #tbl tr.row.s-go{border-right-color:var(--go)}
+ #tbl tr.row.s-late{border-right-color:var(--red)}
+ #tbl tr.row td{border:none;padding:0;text-align:right}
+ #tbl td.no{grid-area:no;width:28px;height:28px;border-radius:50%;background:var(--soft);
+  color:var(--acc);font-weight:700;font-size:13.5px;text-align:center;line-height:28px}
+ #tbl td.pr{grid-area:pr;font-size:15.5px;line-height:1.6}
+ #tbl td.h3{display:none}
+ #tbl td.h5{grid-area:rs;font-size:13.5px;color:var(--mut)}
+ #tbl td.h4{grid-area:du;font-size:13.5px;color:var(--mut)}
+ #tbl td.h4 br{display:none}
+ #tbl td[data-l]:before{content:attr(data-l) ": ";font-weight:700}
+ #tbl td.st{grid-area:st;padding-top:4px}
+ #tbl td.h7{grid-area:pc;font-size:15px;padding-top:4px;justify-self:end}
+ .pill{font-size:13px;padding:4px 12px}
+
+ /* النافذة: صفحة كاملة، وزرّ الحفظ ثابت أسفلها */
+ .ov{padding:0;align-items:stretch;background:#fff}
+ .modal{border-radius:0;max-width:none;min-height:100%;box-shadow:none;display:flex;flex-direction:column}
+ .modal header{border-radius:0;position:sticky;top:0;z-index:2;padding:10px 12px;
+  padding-top:calc(10px + env(safe-area-inset-top))}
+ .modal header h3{font-size:16px}
+ .modal header button{width:42px;height:42px;font-size:20px;border-radius:9px}
+ .modal .body{padding:14px 12px;flex:1}
+ .mproc{display:block;font-size:16px;font-weight:700;line-height:1.7;margin-bottom:10px}
+ details.plan{margin-bottom:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+ details.plan summary{display:block;padding:12px;font-size:14.5px;color:var(--acc);font-weight:700;
+  cursor:pointer;background:var(--soft);list-style:none}
+ details.plan summary::-webkit-details-marker{display:none}
+ details.plan summary:after{content:" ▾"}
+ details.plan[open] summary:after{content:" ▴"}
+ details.plan .ro{margin:0;border-radius:0;border-right:none;font-size:14.5px}
+ .ro .need{font-size:14px;margin-right:8px}
+ label{font-size:14px}
+ .fld{margin-bottom:14px}
+ .fld input,.fld select,.fld textarea{font-size:16px;padding:12px;border-radius:10px}
+ .stseg button{padding:13px 2px;font-size:15px;border-radius:10px}
+ .modal footer{position:sticky;bottom:0;background:#fff;flex-wrap:wrap;gap:8px;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.08)}
+ .modal footer .meta{order:-1;flex:1 1 100%;margin:0;text-align:center}
+ .save{flex:1;padding:15px;font-size:16.5px;border-radius:10px}
+ .ghost{padding:15px 20px;font-size:16px;border-radius:10px}
+
+ /* استمارة (2): تُمرَّر أفقيًّا داخل إطارها */
+ .f2 h2.ttl{font-size:16.5px}
+ .f2 .scroll{-webkit-overflow-scrolling:touch;border-radius:8px}
+ .warnbox{font-size:13.5px}
+ .f2 .recs{font-size:14.5px}
+
+ .toast{right:12px;left:12px;bottom:calc(78px + env(safe-area-inset-bottom));text-align:center}
+}
+
+@media print{
+ .top,.tabs,.filters,.noprint,.toast{display:none!important}
+ body{background:#fff}.wrap{max-width:none;padding:0}
+ .page{display:none!important}.page.print{display:block!important}
+ .f2 table{min-width:0}
+ th{background:#0b5d4e!important;color:#fff!important}
+ th,.sechead,.lbl{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .f2 .recs:empty:before{content:""}
+ tr{break-inside:avoid}
+ @page{size:A4 landscape;margin:10mm}
+}
+</style></head>
+<body>
+
+<div class="top">
+  <h1><span class="long">متابعة خطة التحسين · الابتدائية الثامنة والثلاثون بعد المائتين 238</span><span class="short">متابعة خطة التحسين · 238</span></h1>
+  <button class="menu" id="menuBtn" onclick="toggleMenu()" aria-label="القائمة" aria-expanded="false">☰</button>
+  <div class="actions" id="actions">
+    <span class="who">المستخدمة: <input id="who" placeholder="اكتبي اسمك"></span>
+    <button class="btn" onclick="backup()">حفظ نسخة</button>
+    <button class="btn" onclick="document.getElementById('imp').click()">فتح نسخة ودمجها</button>
+    <input type="file" id="imp" accept=".json" hidden onchange="restore(this)">
+    <button class="btn solid" onclick="printForm2()">طباعة استمارة (2)</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" data-p="dash"><span class="long">المؤشّرات الستّة</span><span class="short">المؤشّرات</span></button>
+  <button class="tab" data-p="progs">البرامج</button>
+  <button class="tab" data-p="form2">استمارة (2)</button>
+</div>
+
+<div class="wrap">
+  <div class="note noprint" id="iosNote" hidden>
+    <b>على آيفون:</b> أضيفي الصفحة إلى الشاشة الرئيسية أولًا، من زرّ المشاركة ثم «إضافة إلى الشاشة الرئيسية»، وسجّلي من أيقونتها.
+    فبغير ذلك يحذف المتصفّح ما سُجّل إذا مرّت 7 أيام بلا فتح الصفحة. أو اضغطي «حفظ نسخة» من القائمة بعد كل تحديث.
+    <button onclick="hideIosNote()">فهمت</button>
+  </div>
+  <div class="page on" id="dash"></div>
+
+  <div class="page" id="progs">
+    <div class="filters noprint">
+      <select id="find"><option value="">المؤشّرات الستّة كلّها</option></select>
+      <select id="fst"><option value="">كل الحالات</option>
+        <option>لم يبدأ</option><option>جارٍ</option><option>منفَّذ</option><option>متأخّر</option></select>
+      <select id="fresp"><option value="">كل المسؤولات</option></select>
+      <input id="fq" placeholder="بحث في البرامج…" style="min-width:220px">
+      <span class="count" id="cnt"></span>
+    </div>
+    <table id="tbl"><thead><tr>
+      <th style="width:42px">م</th><th>إجراء التحسين</th>
+      <th style="width:190px">الأسلوب</th><th style="width:132px">المدة</th>
+      <th style="width:160px">المسؤولية</th><th style="width:92px">الحالة</th>
+      <th style="width:62px">الإنجاز</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="page f2" id="form2"></div>
+</div>
+
+<div class="ov" id="ov"><div class="modal">
+  <header><h3 id="mTitle"></h3><button onclick="closeModal()">✕</button></header>
+  <div class="body" id="mBody"></div>
+  <footer>
+    <button class="save" onclick="saveModal()">حفظ التحديث</button>
+    <button class="ghost" onclick="closeModal()">إغلاق</button>
+    <span class="meta" id="mMeta"></span>
+  </footer>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PROGRAMS = [{"id": 1, "no": 1, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "تخطيط الوحدات والفصول والدروس / ربط التخطيط بنواتج التعلم والمهارات الأساسية", "need": "المؤشّر 2-1-1-5 — 74.25% · الانطلاق\nالحاجة إلى تخطيط للوحدات والدروس مبنيّ على المهارات المتعثرة ونتائج التحليل الفعلية، يراعي الفروق الفردية ويربط التعلم بحياة الطالبات.\nما يتطلّبه المؤشّر وفق التقرير: ربط خبرات التعلم بواقع حياتهن، وتقديم أنشطة تطبيقية تشجعهن على البحث وإجراء التجارب العلمية والاستقصاء؛ للوصول إلى المعرفة وتطبيقها في مواقف جديدة.", "proc": "إعداد خرائط مهارية شهرية، وربط الخطة الأسبوعية بالمهارات المستهدفة، وتضمين أنشطة علاجية وإثرائية وتطبيقية في خطط الدروس.", "meth": "مجتمعات تعلم مهنية، نماذج تخطيط موحدة، اجتماعات متابعة شهرية، مراجعة عينات من خطط الدروس.", "dur": "الأسبوع الأول من كل شهر دراسي", "resp": "المعلمات + وكيلة المدرسة ولجنة التحصيل", "w": ["2-1-1-5"]}, {"id": 3, "no": 2, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "التقنيات والوسائل التعليمية / دمج التقنية الرقمية والوسائل التعليمية في خطة الدرس", "need": "المؤشّر 2-1-1-4 — 70.25% · الانطلاق\nالمؤشّر 2-1-1-9 — 66.75% · الانطلاق\nالحاجة إلى توظيف منتظم للتقنية الرقمية والوسائل التعليمية والمعامل داخل الدروس.\nما يتطلّبه المؤشّر وفق التقرير: توفير المصادر والتجهيزات التقنية اللازمة، وتصميم أنشطة متنوعة ومبتكرة تدمج التعلم الصفي والتعلم الإلكتروني في جميع الفصول الدراسية.", "proc": "حصر التجهيزات التقنية والمعامل وتحديث جدول استخدامها، وتضمين نشاط رقمي أو وسيلة تعليمية في خطة كل وحدة، وتفعيل المنصات التعليمية في الواجبات والتقويم.", "meth": "ورش تطبيقية قصيرة، تبادل زيارات، جدول استخدام المعامل ومصادر التعلم، منصة مدرستي.", "dur": "الفصل الأول: الأسابيع 3–8، مع متابعة شهرية", "resp": "المعلمات وأمينة مصادر التعلم + وكيلة المدرسة", "w": ["2-1-1-9", "2-1-1-4"]}, {"id": 9, "no": 3, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "تنمية المهارات القرائية والعددية الأساسية لدى المتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالقراءة في الاختبارات الوطنية أدنى مؤشّرات المدرسة جميعًا. والحاجة إلى تنمية المهارات القرائية والعددية الأساسية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم لمجال القراءة، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تنفيذ حصص علاجية لرفع مستوى مهارات الطالبات القرائية لدى الطالبات ذوات الضعف الدراسي.", "meth": "حصص دعم علاجية للمتعلمين منخفضي الأداء.", "dur": "من 10/10\nإلى 27/11/1448هـ", "resp": "لجنة التحصيل الدراسي + الوكيلة ريم العتيق", "w": ["3-1-1-1"]}, {"id": 10, "no": 4, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "تنمية المهارات القرائية والعددية الأساسية لدى المتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالقراءة في الاختبارات الوطنية أدنى مؤشّرات المدرسة جميعًا. والحاجة إلى تنمية المهارات القرائية والعددية الأساسية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم لمجال القراءة، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تنفيذ مسابقات متنوعة لإتقان الخط العربي وتنمية الوعي بمهارات اللغة العربية.", "meth": "مسابقة حكاية قلم للمتعلمين.", "dur": "من 8/8\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + منال الشايع", "w": ["3-1-1-1"]}, {"id": 11, "no": 5, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "تنمية المهارات القرائية والعددية الأساسية لدى المتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالقراءة في الاختبارات الوطنية أدنى مؤشّرات المدرسة جميعًا. والحاجة إلى تنمية المهارات القرائية والعددية الأساسية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم لمجال القراءة، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تدريب طالبات الصف الثالث على الإلقاء والمهارات القرائية من خلال مبادرة (أنا أقرأ بطلاقة).", "meth": "مسابقات وأنشطة صفية.", "dur": "من 13/4\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + فوزية الجمعان", "w": ["3-1-1-1"]}, {"id": 13, "no": 6, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "بناء خبرات التعلم", "need": "المؤشّر 2-1-1-9 — 66.75% · الانطلاق\n«تنمي المدرسة المهارات الرقمية لدى المتعلمين»، وهو أدنى مؤشّرات مجال التعليم والتعلم. والحاجة إلى بناء المهارات الرقمية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: تعزيز مهارات استخدام التقنية الرقمية والتعامل مع البيانات عبر الإنترنت، وتوفير خبرات تعلم ثرية لتنمية قدراتهن على استخدام التطبيقات التقنية، وتوظيف البرمجيات في البحث والوصول إلى مصادر المعرفة الموثوقة.", "proc": "تنفيذ دورات تدريبية رقمية للطالبات لرفع المهارات الرقمية لدى الطالبات.", "meth": "دورة تدريبية للطالبات بعنوان (الذكاء الاصطناعي).", "dur": "2/4", "resp": "لجنة التميز + هياء عامر القحطاني", "w": ["2-1-1-9"]}, {"id": 14, "no": 7, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "بناء خبرات التعلم", "need": "المؤشّر 2-1-1-9 — 66.75% · الانطلاق\n«تنمي المدرسة المهارات الرقمية لدى المتعلمين»، وهو أدنى مؤشّرات مجال التعليم والتعلم. والحاجة إلى بناء المهارات الرقمية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: تعزيز مهارات استخدام التقنية الرقمية والتعامل مع البيانات عبر الإنترنت، وتوفير خبرات تعلم ثرية لتنمية قدراتهن على استخدام التطبيقات التقنية، وتوظيف البرمجيات في البحث والوصول إلى مصادر المعرفة الموثوقة.", "proc": "تنفيذ ورشة تعلم للمعلمات لتنمية مهاراتهن في تقنيات مايكروسوفت لخدمة المعلم، مما يسهم في تنمية مهارات المتعلمين رقميًا.", "meth": "ورشة تدريبية للمعلمات (الفصل المقلوب).", "dur": "2/25", "resp": "لجنة التحصيل الدراسي + سلوى غازي العتيبي", "w": ["2-1-1-9"]}, {"id": 15, "no": 8, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "بناء خبرات التعلم", "need": "المؤشّر 2-1-1-9 — 66.75% · الانطلاق\n«تنمي المدرسة المهارات الرقمية لدى المتعلمين»، وهو أدنى مؤشّرات مجال التعليم والتعلم. والحاجة إلى بناء المهارات الرقمية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: تعزيز مهارات استخدام التقنية الرقمية والتعامل مع البيانات عبر الإنترنت، وتوفير خبرات تعلم ثرية لتنمية قدراتهن على استخدام التطبيقات التقنية، وتوظيف البرمجيات في البحث والوصول إلى مصادر المعرفة الموثوقة.", "proc": "تنفيذ برنامج (التعلم الرقمي الفعال) لتمكين المتعلمين من توظيف التقنية في إنتاج أعمال رقمية تعكس فهمهم للمحتوى الدراسي.", "meth": "التطبيقات الرقمية.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التميز + ريم العتيق", "w": ["2-1-1-9"]}, {"id": 16, "no": 9, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "بناء خبرات التعلم", "need": "المؤشّر 2-1-1-9 — 66.75% · الانطلاق\n«تنمي المدرسة المهارات الرقمية لدى المتعلمين»، وهو أدنى مؤشّرات مجال التعليم والتعلم. والحاجة إلى بناء المهارات الرقمية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: تعزيز مهارات استخدام التقنية الرقمية والتعامل مع البيانات عبر الإنترنت، وتوفير خبرات تعلم ثرية لتنمية قدراتهن على استخدام التطبيقات التقنية، وتوظيف البرمجيات في البحث والوصول إلى مصادر المعرفة الموثوقة.", "proc": "تنفيذ ورشة للطالبات بعنوان (السلامة الرقمية) لتنمية القيم الرقمية لدى المتعلمين.", "meth": "ورشة تدريبية للطالبات (السلامة الرقمية).", "dur": "11/12", "resp": "لجنة التحصيل الدراسي + ريم العتيق", "w": ["2-1-1-9"]}, {"id": 17, "no": 10, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "بناء خبرات التعلم", "need": "المؤشّر 2-1-1-9 — 66.75% · الانطلاق\n«تنمي المدرسة المهارات الرقمية لدى المتعلمين»، وهو أدنى مؤشّرات مجال التعليم والتعلم. والحاجة إلى بناء المهارات الرقمية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: تعزيز مهارات استخدام التقنية الرقمية والتعامل مع البيانات عبر الإنترنت، وتوفير خبرات تعلم ثرية لتنمية قدراتهن على استخدام التطبيقات التقنية، وتوظيف البرمجيات في البحث والوصول إلى مصادر المعرفة الموثوقة.", "proc": "تكليف الطالبات بمهام بحث رقمية: تصميم، إذاعة رقمية، فيديوهات، بروشورات في الأيام والمناسبات كاليوم الوطني ويوم التأسيس والأعمال التطوعية ويوم المعلم، مما يسهم في تنمية المهارات الرقمية لدى المتعلمين.", "meth": "مهام أدائية رقمية للمتعلمين.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + نوره عبيد العتيبي", "w": ["2-1-1-9"]}, {"id": 18, "no": 11, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "بناء خبرات التعلم", "need": "المؤشّر 2-1-1-9 — 66.75% · الانطلاق\n«تنمي المدرسة المهارات الرقمية لدى المتعلمين»، وهو أدنى مؤشّرات مجال التعليم والتعلم. والحاجة إلى بناء المهارات الرقمية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: تعزيز مهارات استخدام التقنية الرقمية والتعامل مع البيانات عبر الإنترنت، وتوفير خبرات تعلم ثرية لتنمية قدراتهن على استخدام التطبيقات التقنية، وتوظيف البرمجيات في البحث والوصول إلى مصادر المعرفة الموثوقة.", "proc": "تنفيذ درس تطبيقي نموذجي للمعلمات يدعم استعمالات التقنية والذكاء الاصطناعي في العملية التعليمية، مما يسهم في رفع مهارات الطالبات الرقمية.", "meth": "درس تطبيقي في مادة المهارات الحياتية بعنوان (البيض) لطالبات الصف الخامس.", "dur": "6/17", "resp": "لجنة التحصيل الدراسي + منال الشايع", "w": ["2-1-1-9"]}, {"id": 19, "no": 12, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "التعليم الإلكتروني", "need": "المؤشّر 2-1-1-4 — 70.25% · الانطلاق\n«تفعّل المدرسة التعلم الإلكتروني لتلبية احتياجات المتعلمين ودعم تعلمهم». والحاجة إلى زيادة تفعيل التعليم الإلكتروني بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: توفير المصادر والتجهيزات التقنية اللازمة لتلبية احتياجات جميع المتعلمات، وتصميم أنشطة متنوعة ومبتكرة تدمج التعلم الصفي والتعلم الإلكتروني في جميع الفصول الدراسية.", "proc": "إنشاء قنوات رقمية تفاعلية للمواد الدراسية في المنصات المعتمدة، لرفع المهام الأدائية وتقديم التغذية الراجعة.", "meth": "قنوات رقمية تفاعلية في منصة مدرستي.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + معلمات المواد", "w": ["2-1-1-4"]}, {"id": 20, "no": 13, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "التعليم الإلكتروني", "need": "المؤشّر 2-1-1-4 — 70.25% · الانطلاق\n«تفعّل المدرسة التعلم الإلكتروني لتلبية احتياجات المتعلمين ودعم تعلمهم». والحاجة إلى زيادة تفعيل التعليم الإلكتروني بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: توفير المصادر والتجهيزات التقنية اللازمة لتلبية احتياجات جميع المتعلمات، وتصميم أنشطة متنوعة ومبتكرة تدمج التعلم الصفي والتعلم الإلكتروني في جميع الفصول الدراسية.", "proc": "استثمار منصة الدعم الموحد لمعالجة نقص التجهيزات التقنية ودعم البيئة التعليمية الرقمية.", "meth": "منصة الدعم الفني للمبنى المدرسي.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "اللجنة الإدارية + صيته القحطاني", "w": ["2-1-1-4"]}, {"id": 21, "no": 14, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "التعليم الإلكتروني", "need": "المؤشّر 2-1-1-4 — 70.25% · الانطلاق\n«تفعّل المدرسة التعلم الإلكتروني لتلبية احتياجات المتعلمين ودعم تعلمهم». والحاجة إلى زيادة تفعيل التعليم الإلكتروني بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: توفير المصادر والتجهيزات التقنية اللازمة لتلبية احتياجات جميع المتعلمات، وتصميم أنشطة متنوعة ومبتكرة تدمج التعلم الصفي والتعلم الإلكتروني في جميع الفصول الدراسية.", "proc": "تخصيص روابط إثرائية عبر خانة الإثراءات بمنصة مدرستي تلائم مستويات الطالبات المتفاوتة.", "meth": "المحتوى التفاعلي للطالبات في منصة مدرستي.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + جميع المعلمات", "w": ["2-1-1-4"]}, {"id": 22, "no": 15, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "التعليم الإلكتروني", "need": "المؤشّر 2-1-1-4 — 70.25% · الانطلاق\n«تفعّل المدرسة التعلم الإلكتروني لتلبية احتياجات المتعلمين ودعم تعلمهم». والحاجة إلى زيادة تفعيل التعليم الإلكتروني بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: توفير المصادر والتجهيزات التقنية اللازمة لتلبية احتياجات جميع المتعلمات، وتصميم أنشطة متنوعة ومبتكرة تدمج التعلم الصفي والتعلم الإلكتروني في جميع الفصول الدراسية.", "proc": "تفعيل بنك الأسئلة في منصة مدرستي لإنشاء اختبارات ذاتية التصحيح توفر تغذية راجعة فورية.", "meth": "بنك الأسئلة في منصة مدرستي.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + جميع المعلمات", "w": ["2-1-1-4"]}, {"id": 23, "no": 16, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "التعليم الإلكتروني", "need": "المؤشّر 2-1-1-4 — 70.25% · الانطلاق\n«تفعّل المدرسة التعلم الإلكتروني لتلبية احتياجات المتعلمين ودعم تعلمهم». والحاجة إلى زيادة تفعيل التعليم الإلكتروني بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: توفير المصادر والتجهيزات التقنية اللازمة لتلبية احتياجات جميع المتعلمات، وتصميم أنشطة متنوعة ومبتكرة تدمج التعلم الصفي والتعلم الإلكتروني في جميع الفصول الدراسية.", "proc": "تنفيذ ورشة تدريبية (مايكروسوفت Microsoft copilot) لخدمة المعلم بهدف تنمية مهارات المعلمات الرقمية.", "meth": "ورشة تدريبية (مايكروسوفت Microsoft copilot).", "dur": "28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + خلود الشيباني", "w": ["2-1-1-4"]}, {"id": 28, "no": 17, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "أنشطة التعلم التطبيقية", "need": "المؤشّر 2-1-1-5 — 74.25% · الانطلاق\n«توفر المدرسة أنشطة تعلم تطبيقية ترتبط بحياة المتعلمين». والحاجة إلى توفير أنشطة تعلم تطبيقية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: ربط خبرات التعلم بواقع حياتهن، وتقديم أنشطة تطبيقية تشجعهن على البحث وإجراء التجارب العلمية والاستقصاء؛ للوصول إلى المعرفة وتطبيقها في مواقف جديدة.", "proc": "تنفيذ مبادرة العلم في حياتنا من خلال منصة (بادلت) الحائط الإلكتروني لتعزيز تفاعل المتعلمين ونشر ما تعلموه في المدرسة، ولربط المفاهيم العلمية لديهم بالممارسات الحياتية اليومية وتحويل المعرفة إلى واقع.", "meth": "مبادرة العلم في حياتنا.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + الوكيلة ريم العتيق", "w": ["2-1-1-5"]}, {"id": 29, "no": 18, "sec": "أولًا: مجال التدريس", "dom": "التدريس", "elem": "أنشطة التعلم التطبيقية", "need": "المؤشّر 2-1-1-5 — 74.25% · الانطلاق\n«توفر المدرسة أنشطة تعلم تطبيقية ترتبط بحياة المتعلمين». والحاجة إلى توفير أنشطة تعلم تطبيقية بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: ربط خبرات التعلم بواقع حياتهن، وتقديم أنشطة تطبيقية تشجعهن على البحث وإجراء التجارب العلمية والاستقصاء؛ للوصول إلى المعرفة وتطبيقها في مواقف جديدة.", "proc": "دعم الأنشطة اللامنهجية المقدمة للمتعلمين والتي تعزز من خبراتهم الحياتية في مجالات عديدة كالثقافة الإعلامية والتصاميم التراثية، وأنواع الرياضات والثقافة المسرحية والعناية بالبيئة وتنمية مهارات الوعي بالسلامة المرورية.", "meth": "برنامج الثقافة الإعلامية (الإنتاج الإعلامي، المقابلات الإعلامية) — 3/6/1448هـ\nبرنامج التصاميم التراثية (عمراني، أزياء) — 20/8/1448هـ\nالرياضة الجماعية — 24–28/10/1448هـ\nمهارات الألعاب الذهنية — 24–28/10/1448هـ\nالفنون المسرحية (الاستعراض المسرحي، العروض الجماعية، التمثيل) — 2–6/11/1448هـ\nحدائق الفن (التصميم والتشكيل بالقطع والنحت والتشكيل بالرمل) — 9–13/11/1448هـ\nالسعودية الخضراء — 10–14/10/1448هـ\nوقايتي مسؤوليتي (السلامة في الحافلة والنقل المدرسي) — 9–12/11 و16–20/11/1448هـ\nالسياحة في وطني — 9–12/11 و16–20/11/1448هـ", "dur": "من 3/6\nإلى 20/11/1448هـ", "resp": "لجنة التحصيل الدراسي + مشرفة النشاط نوره عبيد", "w": ["2-1-1-5"]}, {"id": 30, "no": 19, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "دراسة نتائج تعلم الطلاب وتحليلها / دراسة النتائج وتحليلها ومعالجة التعثر", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nمتوسّط مكوّن التحصيل التعليمي 70.45% في مستوى الانطلاق. والحاجة إلى تدخّل مركّز في المهارات ذات النتائج المنخفضة، وتحليل النتائج لكل فصل ولكل مهارة.\nما يتطلّبه المؤشّر وفق التقرير: تحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات التعليمية المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تحليل نتائج الاختبارات الوطنية «نافس» على مستوى المهارة، وتنفيذ تشخيص مهاري، وتقسيم الطلاب إلى مجموعات دعم، وتخصيص حصتين علاجيتين أسبوعيًا.", "meth": "اختبارات قصيرة، بطاقات مهارية، علاج متدرج، متابعة فردية للتقدم.", "dur": "طوال العام، مع تكثيف في الأسابيع 3–8 من كل فصل", "resp": "معلمات المواد + لجنة التحصيل ومديرة المدرسة", "w": ["3-1-1-1"]}, {"id": 31, "no": 20, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "تحديد جوانب القوة والضعف / اتخاذ قرارات تحسين قائمة على البيانات", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالقراءة في الاختبارات الوطنية أدنى مؤشّرات المدرسة. والحاجة إلى تحويل تحليل النتائج إلى أثرٍ في نواتج التعلم بقراءة شهرية تحدد القوة والضعف لكل فصل ومهارة.\nما يتطلّبه المؤشّر وفق التقرير: تحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات التعليمية المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "إنشاء لوحة مؤشرات لكل فصل ولكل مهارة، وتحديد الطلاب ذوي الأولوية، ومتابعة التحسن شهريًا.", "meth": "جداول متابعة، اجتماع تحليلي شهري، ملفات شواهد.", "dur": "نهاية كل شهر دراسي", "resp": "وكيلة المدرسة والمعلمات + لجنة التميز", "w": ["3-1-1-1"]}, {"id": 32, "no": 21, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "تحسين التحصيل العلمي للمتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالحاجة إلى رفع مستوى أداء المتعلمين في مجال القراءة وفقًا لنتائج الاختبارات الوطنية (نافس) بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تدريب المتعلمين على إحدى مهارات الفهم القرائي بداية كل حصة دراسية مدة (5) دقائق؛ مما يعزز قدراتهم القرائية.", "meth": "أنشطة تدريبية للمتعلمين تركز على مهارات الفهم القرائي.", "dur": "من 1/3\nإلى 28/12/1448هـ", "resp": "لجنة التحصيل الدراسي + جميع المعلمات", "w": ["3-1-1-1"]}, {"id": 33, "no": 22, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "تحسين التحصيل العلمي للمتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالحاجة إلى رفع مستوى أداء المتعلمين في مجال القراءة وفقًا لنتائج الاختبارات الوطنية (نافس) بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تنفيذ برنامج إضافي لتنمية مهارات الفهم والاستيعاب القرائي لدى المتعلمات.", "meth": "برنامج تنمية مهارات الفهم والاستيعاب القرائي.", "dur": "عام دراسي كامل", "resp": "معلمات المدرسة", "w": ["3-1-1-1"]}, {"id": 34, "no": 23, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "تحسين التحصيل العلمي للمتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالحاجة إلى رفع مستوى أداء المتعلمين في مجال القراءة وفقًا لنتائج الاختبارات الوطنية (نافس) بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تنفيذ برنامج للطالبات لتعزيز الفهم القرائي باستخدام استراتيجية (SQ3R) في النص القرائي (الإيجابية روحًا وسلوكًا) لطالبات الصف السادس.", "meth": "برنامج الإيجابية روحًا وسلوكًا للطالبات.", "dur": "أسبوعان", "resp": "لجنة التحصيل الدراسي + ريم العتيق", "w": ["3-1-1-1"]}, {"id": 35, "no": 24, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "تحسين التحصيل العلمي للمتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالحاجة إلى رفع مستوى أداء المتعلمين في مجال القراءة وفقًا لنتائج الاختبارات الوطنية (نافس) بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تنفيذ مسابقة القراءة والتلخيص لرفع مهارات المتعلمين قرائيًا، وذلك بتوزيع دفاتر خاصة بالتلخيص بعد القراءة الموجهة.", "meth": "مسابقة وأنشطة صفية.", "dur": "من 10/10\nإلى 27/11/1448هـ", "resp": "لجنة التحصيل الدراسي + ريم العتيق", "w": ["3-1-1-1"]}, {"id": 36, "no": 25, "sec": "ثانيًا: مجال نواتج التعلم", "dom": "نواتج التعلم", "elem": "تحسين التحصيل العلمي للمتعلمين", "need": "المؤشّر 3-1-1-1 — 57.17% · الانطلاق\nالحاجة إلى رفع مستوى أداء المتعلمين في مجال القراءة وفقًا لنتائج الاختبارات الوطنية (نافس) بنسبة 5%.\nما يتطلّبه المؤشّر وفق التقرير: رفع نسبة المتعلمات اللاتي يحققن مستويات متقدمة في نواتج التعلم، وتحليل بيانات الاختبارات الوطنية لتحديد الفجوة بين أداء المدرسة والأداء على المستوى الوطني، واتخاذ القرارات المناسبة بشأن البرامج العلاجية أو الإثرائية.", "proc": "تدريب الطالبات على أسس القراءة السليمة ودعم القراءة والتلخيص من خلال مسابقة (اقرأ الإلكترونية) لتعزيز مهارات الفهم القرائي لدى الطالبات.", "meth": "ورشة تدريبية للطالبات لمسابقة اقرأ.", "dur": "من 24/8\nإلى 27/12/1448هـ", "resp": "لجنة التحصيل الدراسي + نوره عبيد العتيبي", "w": ["3-1-1-1"]}, {"id": 38, "no": 26, "sec": "ثالثًا: مجال الأنشطة المدرسية", "dom": "الأنشطة المدرسية", "elem": "ارتباط الأنشطة بالأهداف التعليمية / إنتاج تعلم ملموس للطلاب عبر النشاط", "need": "المؤشّر 2-1-1-5 — 74.25% · الانطلاق\nالحاجة إلى أن ترتبط الأنشطة بمخرجات تعلم واضحة يمكن قياسها ومتابعتها.\nما يتطلّبه المؤشّر وفق التقرير: ربط خبرات التعلم بواقع حياتهن، وتقديم أنشطة تطبيقية تشجعهن على البحث وإجراء التجارب العلمية والاستقصاء؛ للوصول إلى المعرفة وتطبيقها في مواقف جديدة.", "proc": "تنفيذ مشروع قصير لكل صف في كل فصل دراسي، يعرض فيه الطلاب منتجًا مرتبطًا بمهارة دراسية.", "meth": "تعلم بالمشروع، قوائم تقدير، عرض شفهي، تحكيم مبسط.", "dur": "مشروع واحد في كل فصل، والعرض في آخر ثلاثة أسابيع منه", "resp": "المعلمات ورائدة النشاط + لجنة التميز", "w": ["2-1-1-5"]}, {"id": 39, "no": 27, "sec": "رابعًا: مجال التطوير المستمر", "dom": "التطوير المستمر", "elem": "التطوير المستمر الفردي / بناء نمو مهني موجَّه بالأداء", "need": "المؤشّر 1-4-1-2 — 73.5% · الانطلاق\n«تدعم المدرسة التطوير المهني لمنسوبيها وفقًا لنتائج تقويم الأداء الوظيفي واحتياجاتهم». والحاجة إلى تحويل الزيارة الصفية من إجراء رقابي إلى خطة نمو مهني لكل معلمة.\nما يتطلّبه المؤشّر وفق التقرير: بناء خطة للتطوير المهني ترتبط بنتائج تقويم الأداء الوظيفي وتلبي احتياجات جميع منسوباتها، وقياس أثرها في أدائهن.", "proc": "يحدد كل معلم هدفًا مهنيًا واحدًا مرتبطًا بنتائج الزيارة الصفية، مع متابعة تطبيقه.", "meth": "بطاقة تأمل، جلسة إرشاد مهني، متابعة منتصف الفصل ونهايته.", "dur": "يبدأ من الأسبوع الثاني في كل فصل، مع مراجعة منتصفه ونهايته", "resp": "المعلمات + مديرة المدرسة", "w": ["1-4-1-2"]}, {"id": 40, "no": 28, "sec": "رابعًا: مجال التطوير المستمر", "dom": "التطوير المستمر", "elem": "التطوير المستمر الفريقي / تفعيل التطوير المهني المبني على البيانات", "need": "المؤشّر 1-4-1-2 — 73.5% · الانطلاق\nالحاجة إلى تطوير جماعي منظم منبثق من نتائج الطالبات وحاجات المدرسة الفعلية.\nما يتطلّبه المؤشّر وفق التقرير: تشجيع المعلمات على المشاركة في مجتمعات التعلم المهنية، وفي إجراء الدراسات والبحوث الإجرائية.", "proc": "تنفيذ لقاء مهني شهري حول مؤشر واحد من مؤشرات الأداء، وربط التوصيات بالممارسة الصفية.", "meth": "مجتمعات تعلم مهنية، تحليل بيانات، ورش قصيرة، تبادل خبرات.", "dur": "لقاء شهري طوال العام الدراسي", "resp": "المعلمات + لجنة التميز ومديرة المدرسة", "w": ["1-4-1-2"]}, {"id": 41, "no": 29, "sec": "رابعًا: مجال التطوير المستمر", "dom": "التطوير المستمر", "elem": "التطوير المستمر الفردي / دعم الحصول على الرخصة المهنية وتجويد الممارسة", "need": "المؤشّر 1-4-1-1 — 71.75% · الانطلاق\n«تشجع المدرسة منسوبيها للحصول على الرخصة المهنية». والحاجة إلى دعم المعلمات في معايير الرخصة المهنية وربطها بالأداء المدرسي.\nما يتطلّبه المؤشّر وفق التقرير: توفير أنشطة توعوية وبرامج متنوعة تشجع منسوباتها وتحفزهن للمبادرة في الحصول على الرخصة المهنية، ومتابعة تقدمهن المهني وفق الرتب المهنية للمعلمين.", "proc": "إعداد بنك أسئلة ومعايير، وتنفيذ مجموعات دراسة، وتكريم المنجزين في الرخصة المهنية.", "meth": "مجموعات دراسة، حقائب مختصرة، لقاءات مراجعة، تكريم دوري.", "dur": "الفصل الثاني، مع متابعة شهرية", "resp": "المعلمات + لجنة التميز ومديرة المدرسة", "w": ["1-4-1-1"]}];
+const WEAK = [{"c": "3-1-1-1", "t": "يحقق المتعلمون نتائج متقدمة في مجال القراءة وفقًا للاختبارات الوطنية", "pct": 57.1725, "lvl": "الانطلاق", "dom": "نواتج التعلم", "elem": "التحصيل التعليمي", "progs": [9, 10, 11, 30, 31, 32, 33, 34, 35, 36], "short": "القراءة في الاختبارات الوطنية"}, {"c": "2-1-1-9", "t": "تنمي المدرسة المهارات الرقمية لدى المتعلمين", "pct": 66.75, "lvl": "الانطلاق", "dom": "التعليم والتعلم", "elem": "بناء خبرات التعلم", "progs": [3, 13, 14, 15, 16, 17, 18], "short": "المهارات الرقمية"}, {"c": "2-1-1-4", "t": "تفعل المدرسة التعلم الإلكتروني لتلبية احتياجات المتعلمين ودعم تعلمهم", "pct": 70.25, "lvl": "الانطلاق", "dom": "التعليم والتعلم", "elem": "بناء خبرات التعلم", "progs": [3, 19, 20, 21, 22, 23], "short": "التعلم الإلكتروني"}, {"c": "1-4-1-1", "t": "تشجع المدرسة منسوبيها للحصول على الرخصة المهنية", "pct": 71.75, "lvl": "الانطلاق", "dom": "الإدارة المدرسية", "elem": "التطوير المؤسسي", "progs": [41], "short": "الرخصة المهنية"}, {"c": "1-4-1-2", "t": "تدعم المدرسة التطوير المهني لمنسوبيها وفقًا لنتائج تقويم الأداء الوظيفي واحتياجاتهم", "pct": 73.5, "lvl": "الانطلاق", "dom": "الإدارة المدرسية", "elem": "التطوير المؤسسي", "progs": [39, 40], "short": "التطوير المهني"}, {"c": "2-1-1-5", "t": "توفر المدرسة أنشطة تعلم تطبيقية ترتبط بحياة المتعلمين", "pct": 74.25, "lvl": "الانطلاق", "dom": "التعليم والتعلم", "elem": "بناء خبرات التعلم", "progs": [1, 28, 29, 38], "short": "أنشطة التعلم التطبيقية"}];
+const META = {"basic": [["اسم المدرسة", "الابتدائية الثامنة والثلاثون بعد المائتين 238", "المرحلة", "ابتدائي", "جنس المدرسة", "بنات"], ["الرقم الوزاري", "95371", "نوع المبنى", "حكومي", "استقلالية المبنى", "مشترك"], ["الفترة", "صباحي", "استقلالية الإدارة", "مشتركة", "المدرسة المشتركة في الإدارة", "روضة ملحقة بالابتدائية 238"]], "levels": ["مستوى الأداء العام للمدرسة في التقويم المدرسي ( آخر تقرير)", "83%", "مستوى المدرسة في نواتج التعلم في التقويم المدرسي ( آخر تقرير)", "75.5%"], "principal": "فاطمة الدوسري", "supervisor": "أسماء التميمي", "recs": ["معيار التحصيل التعليمي في مجال نواتج التعلم في مستوى «الانطلاق»، وتسعى المدرسة للوصول إلى مستوى التميز من خلال برامج وأساليب متنوعة تدعم التعلم الصفي وأنشطة التعلم.", "تشجع المدرسة منسوبيها للحصول على الرخصة المهنية (المؤشر 1-4-1-1: 71.75%) من خلال تنفيذ الورش ومجموعات الدراسة وتكريم المعلمين الحاصلين عليها، وتفعيل مجتمعات التعلم المهنية لمناقشة معايير الرخصة المهنية التربوية والتخصصية.", "توحيد متابعة البرامج القرائية وربط كل برنامج بالمهارة المستهدفة ونتائج القياس القبلي والبعدي.", "توثيق تنفيذ البرامج والشواهد، وتحليل أثرها بصورة دورية، وتحديث قوائم الطالبات وفق مستوى الإتقان.", "تكثيف الدعم العلاجي للطالبات ذوات الأداء المنخفض، مع إشراك الأسرة في متابعة القراءة والممارسة المنزلية.", "الاستفادة من نتائج المتابعة في تطوير الإجراءات وتوجيه الدعم للصفوف والمهارات الأكثر احتياجًا.", "استمرار متابعة المؤشرات شهريًا، وتوثيق الشواهد، وربط إجراءات التحسين بنتائج الطلاب وواقع الأداء المدرسي.", "وفق الأداء العام للمدرسة تُبنى خطتها «خطة تحسين» (تحسين مستمر)، وتُقدَّم للمدرسة خدمات دعم التميز المدرسي في مجالات الممارسات الإشرافية من خلال مشرف تربوي تُسند له إدارة التعليم مهام محددة وفق حاجة المدرسة، لأن أداءها في مجال نواتج التعلم في مستوى «الانطلاق»."]};
+const KEY = 'tahseen238.v1';
+const STATUSES = ['لم يبدأ','جارٍ','منفَّذ','متأخّر'];
+const CLS = {'لم يبدأ':'no','جارٍ':'go','منفَّذ':'ok','متأخّر':'late'};
+
+const WCODES = WEAK.map(w=>w.c);
+const P = id => PROGRAMS.find(p=>p.id===id);
+const FOCUS = PROGRAMS;                             // الخطة: برامج المؤشّرات الستّة
+
+let state = load();
+let openId = null;
+let f2detail = true;
+
+function load(){
+  let s = null;
+  try{ const r = localStorage.getItem(KEY); if(r) s = JSON.parse(r); }catch(e){}
+  if(!s || typeof s!=='object') s = {};
+  if(!s.items) s.items = {};
+  if(s.who==null) s.who = '';
+  if(s.recs==null) s.recs = '';
+  if(!s.meta) s.meta = {};
+  return s;
+}
+function persist(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); }
+  catch(e){ toast('تعذّر الحفظ في المتصفّح — استعملي «حفظ نسخة»'); }
+}
+function item(id){
+  if(!state.items[id]) state.items[id] = {st:'لم يبدأ',pct:0,date:'',exec:'',ev:'',note:'',sup:'',at:'',by:''};
+  const it = state.items[id];
+  if(it.sup==null) it.sup = '';
+  return it;
+}
+function toast(m){
+  const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2600);
+}
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today = () => new Date().toISOString().slice(0,10);
+const num = v => String(+(+v).toFixed(2));
+const L = s => `<bdi class="n" dir="ltr">${esc(s)}</bdi>`;   // رمز أو نسبة
+const fmt = s => esc(s).replace(/[0-9](?:[0-9\-\/.,%]*[0-9%])?/g, m=>`<bdi class="n" dir="ltr">${m}</bdi>`);
+const PLAN_RECS = META.recs.map((r,i)=>`${i+1}. ${r}`).join('\n');
+const count = (ps,s) => ps.filter(p=>item(p.id).st===s).length;
+
+function barHtml(ps){
+  const n = ps.length || 1;
+  const w = s => count(ps,s)/n*100;
+  return `<span class="bar"><i class="s-ok" style="width:${w('منفَّذ')}%"></i>
+    <i class="s-go" style="width:${w('جارٍ')}%"></i>
+    <i class="s-late" style="width:${w('متأخّر')}%"></i></span>`;
+}
+
+/* ══ المؤشّرات الستّة ══ */
+function renderDash(){
+  let h = `<div class="cards">
+    <div class="card"><div class="n">${WEAK.length}</div><div class="k">مؤشّرات في مستوى الانطلاق</div></div>
+    <div class="card"><div class="n">${FOCUS.length}</div><div class="k">برنامجًا يخدمها</div></div>
+    <div class="card c-ok"><div class="n">${count(FOCUS,'منفَّذ')}</div><div class="k">منفَّذ</div></div>
+    <div class="card c-go"><div class="n">${count(FOCUS,'جارٍ')}</div><div class="k">جارٍ</div></div>
+    <div class="card c-no"><div class="n">${count(FOCUS,'لم يبدأ')}</div><div class="k">لم يبدأ</div></div>
+    <div class="card c-late"><div class="n">${count(FOCUS,'متأخّر')}</div><div class="k">متأخّر</div></div>
+  </div><div class="inds">`;
+
+  WEAK.forEach(w=>{
+    const ps = w.progs.map(P);
+    h += `<div class="ind" onclick="goInd('${w.c}')">
+      <div class="hd"><span class="cd">${L(w.c)}</span><span class="lv">${esc(w.lvl)}</span></div>
+      <div class="big">${L(num(w.pct)+'%')}<small>النسبة في التقرير</small></div>
+      <div class="tx">${esc(w.t)}</div>
+      <div class="dm">${esc(w.dom)} · ${esc(w.elem)}</div>
+      ${barHtml(ps)}
+      <div class="ct">نُفّذ <b>${count(ps,'منفَّذ')}</b> من ${ps.length} ·
+        جارٍ ${count(ps,'جارٍ')} · متأخّر ${count(ps,'متأخّر')} · لم يبدأ ${count(ps,'لم يبدأ')}</div>
+      <div class="go">عرض برامجه ◂</div>
+    </div>`;
+  });
+  h += `</div><div class="legend">
+    <span><i class="dot" style="background:#1e7a4a"></i>منفَّذ</span>
+    <span><i class="dot" style="background:#2f6fb5"></i>جارٍ</span>
+    <span><i class="dot" style="background:#b42f1f"></i>متأخّر</span>
+    <span><i class="dot" style="background:#e7eef0"></i>لم يبدأ</span>
+    <span>· النسب من تقرير التقويم المدرسي الخارجي، دورة التقويم الأولى 2026</span></div>`;
+
+  const late = FOCUS.filter(p=>item(p.id).st==='متأخّر');
+  if(late.length){
+    h += `<h2 class="sec">ما وُسم متأخّرًا</h2><div class="panel">`;
+    late.forEach(p=>{ h += `<div style="padding:7px 0;border-bottom:1px solid #eef2f3;cursor:pointer"
+      onclick="openModal(${p.id})"><b>${p.no}.</b> ${esc(p.proc.slice(0,120))}
+      — <span style="color:#5c7280">${esc(p.resp)}</span></div>`; });
+    h += `</div>`;
+  }
+  document.getElementById('dash').innerHTML = h;
+}
+function goInd(c){
+  document.getElementById('find').value = c;
+  showTab('progs'); renderProgs(); window.scrollTo(0,0);
+}
+
+/* ══ البرامج ══ */
+function passes(p){
+  const it=item(p.id),
+    fs=document.getElementById('fst').value,
+    fr=document.getElementById('fresp').value,
+    fq=document.getElementById('fq').value.trim();
+  if(fs && it.st!==fs) return false;
+  if(fr && p.resp!==fr) return false;
+  if(fq && !(p.proc+p.meth+p.elem+p.resp).includes(fq)) return false;
+  return true;
+}
+function renderProgs(){
+  const fi=document.getElementById('find').value;
+  const tb=document.querySelector('#tbl tbody'); tb.innerHTML='';
+  const shown = new Set();
+  WEAK.forEach(w=>{
+    if(fi && w.c!==fi) return;
+    const all = w.progs.map(P), ps = all.filter(passes);
+    const g=document.createElement('tr'); g.className='grp';
+    g.innerHTML = `<td colspan="7"><span class="code">${L(w.c)}</span> &nbsp;
+      <span class="gp">${L(num(w.pct)+'%')}</span> &nbsp; ${esc(w.t)}
+      <span class="gn">نُفّذ ${count(all,'منفَّذ')} من ${all.length}</span></td>`;
+    tb.appendChild(g);
+    if(!ps.length){
+      const e=document.createElement('tr');
+      e.innerHTML=`<td colspan="7" class="c" style="color:#5c7280">لا برنامج بهذه التصفية.</td>`;
+      tb.appendChild(e); return;
+    }
+    ps.forEach(p=>{
+      shown.add(p.id);
+      const it=item(p.id);
+      const other = p.w.filter(c=>c!==w.c);
+      const tr=document.createElement('tr'); tr.className='row s-'+CLS[it.st];
+      tr.onclick=()=>openModal(p.id);
+      tr.innerHTML = `<td class="c no">${p.no}</td>
+        <td class="pr">${esc(p.proc)}${other.length?`<br><span class="tag">يخدم أيضًا ${other.map(L).join('، ')}</span>`:''}</td>
+        <td class="h3">${esc(p.meth)}</td>
+        <td class="c h4" data-l="المدة">${esc(p.dur).replace(/\n/g,' <br>')}</td>
+        <td class="h5" data-l="المسؤولية">${esc(p.resp)}</td>
+        <td class="c st"><span class="pill p-${CLS[it.st]}">${esc(it.st)}</span></td>
+        <td class="c h7"><b>${+it.pct||0}%</b></td>`;
+      tb.appendChild(tr);
+    });
+  });
+  document.getElementById('cnt').textContent = `${shown.size} من ${FOCUS.length}`;
+}
+
+/* ══ استمارة (2) ══ */
+function f2list(arr){
+  const u=[...new Set(arr.map(x=>String(x||'').trim()).filter(Boolean))];
+  return u.length ? `<ul>${u.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>` : '';
+}
+function renderForm2(){
+  const src = PROGRAMS;
+  const BASIC = META.basic, LV = META.levels;
+  const lv1 = state.meta.lv1!=null ? state.meta.lv1 : LV[1];
+  const lv2 = state.meta.lv2!=null ? state.meta.lv2 : LV[3];
+
+  let h = `<div class="noprint">
+    <div class="warnbox">تُعبَّأ من المتابعة: يدخلها المنفَّذ والجاري وحدهما. وأعمدتها أعمدة استمارة (2)
+      في ملفّ «خطة التحسين وفق النموذج الإشرافي». والخانات المظلّلة عند النقر تُعدَّل في مكانها.</div>
+    <div class="opts">
+      <label><input type="checkbox" ${f2detail?'checked':''}
+        onchange="f2detail=this.checked;renderForm2()"> إظهار التاريخ والشواهد تحت الإجراء</label>
+    </div></div>
+   <h2 class="ttl">استمارة (2): تنفيذ خطة التحسين في مجالات الممارسات الإشرافية</h2>
+   <h3>أولًا: البيانات الأساسية</h3>
+   <div class="scroll"><table><tbody>`;
+  BASIC.forEach(r=>{ h += `<tr>`+r.map((v,i)=>`<td class="${i%2?'':'lbl'}">${esc(v)}</td>`).join('')+`</tr>`; });
+  h += `</tbody></table></div><div style="height:8px"></div>
+   <div class="scroll"><table><tbody><tr>
+     <td class="lbl">${esc(LV[0])}</td>
+     <td class="c" contenteditable="true" oninput="state.meta.lv1=this.innerText.trim();persist()">${esc(lv1)}</td>
+     <td class="lbl">${esc(LV[2])}</td>
+     <td class="c" contenteditable="true" oninput="state.meta.lv2=this.innerText.trim();persist()">${esc(lv2)}</td>
+   </tr></tbody></table></div>
+   <h3>ثانيًا: إجراءات تنفيذ خطة التحسين في مجالات الممارسات الإشرافية</h3>
+   <div class="scroll"><table><thead>
+     <tr><th rowspan="2" style="width:92px">المجال</th>
+       <th rowspan="2" style="width:190px">العنصر / المكوّن — العملية المراد تحسينها</th>
+       <th rowspan="2">الإجراءات المنفَّذة</th>
+       <th colspan="2" style="text-align:center">مقدّم خدمات دعم التميز المدرسي</th></tr>
+     <tr><th style="width:170px">لجان المدرسة</th><th style="width:230px">المشرف التربوي</th></tr>
+   </thead><tbody>`;
+
+  // صفّ لكل عنصر، وتحته ما نُفّذ من برامجه
+  const groups = [];
+  src.forEach(p=>{
+    const it=item(p.id);
+    if(it.st!=='منفَّذ' && it.st!=='جارٍ') return;
+    let g = groups.find(x=>x.sec===p.sec && x.elem===p.elem);
+    if(!g){ g={sec:p.sec,dom:p.dom,elem:p.elem,ps:[]}; groups.push(g); }
+    g.ps.push(p);
+  });
+  let cur=null;
+  groups.forEach(g=>{
+    if(g.sec!==cur){ cur=g.sec; h+=`<tr><td class="sechead" colspan="5">${esc(cur)}</td></tr>`; }
+    const acts = g.ps.map(p=>{
+      const it=item(p.id);
+      let s = esc(p.proc) + (it.st==='جارٍ' ? ` <span class="sub">(جارٍ — ${L((+it.pct||0)+'%')})</span>` : '');
+      if(f2detail){
+        const d=[];
+        if(it.date) d.push('التاريخ: '+esc(it.date));
+        if(it.ev) d.push('الشواهد: '+esc(it.ev));
+        if(d.length) s += `<div class="sub">${d.join(' · ')}</div>`;
+      }
+      return `<li>${s}</li>`;
+    }).join('');
+    h += `<tr><td class="c">${esc(g.dom)}</td><td>${esc(g.elem)}</td>
+      <td><ul>${acts}</ul></td>
+      <td>${f2list(g.ps.map(p=>item(p.id).exec||p.resp))}</td>
+      <td>${f2list(g.ps.map(p=>item(p.id).sup))}</td></tr>`;
+  });
+  if(!groups.length) h += `<tr><td colspan="5" class="c" style="color:#5c7280;padding:20px">
+    لم يُسجَّل تنفيذٌ بعد. افتحي تبويب «البرامج» وحدّثي حالة ما نُفِّذ.</td></tr>`;
+
+  h += `</tbody></table></div>
+   <h3>التوصيات والمقترحات</h3>
+   <div class="recs" contenteditable="true"
+     oninput="state.recs=this.innerText;persist()">${fmt(state.recs && state.recs.trim() ? state.recs : PLAN_RECS)}</div>
+   <div style="height:14px"></div>
+   <div class="scroll"><table><tbody>
+     <tr><td class="lbl c">مقدّمة خدمات دعم التميز المدرسي</td><td class="lbl c">مديرة المدرسة</td>
+       <td class="lbl c">التوقيع</td><td class="lbl c">ختم المدرسة</td></tr>
+     <tr><td class="c" style="height:46px">${esc(META.supervisor)}</td>
+       <td class="c">${esc(META.principal)}</td><td></td><td></td></tr>
+   </tbody></table></div>`;
+  document.getElementById('form2').innerHTML = h;
+}
+
+/* ══ النافذة المنبثقة ══ */
+function openModal(id){
+  openId=id;
+  const p=P(id), it=item(id);
+  document.getElementById('mTitle').textContent = `البرنامج ${p.no} · ${p.dom}`;
+  document.getElementById('mBody').innerHTML = `
+   <div class="mproc">${esc(p.proc)}</div>
+   <details class="plan" ${matchMedia('(max-width:820px)').matches?'':'open'}>
+   <summary>نصّ الصفّ في الاستمارة</summary>
+   <div class="ro"><b>العنصر:</b> ${esc(p.elem)}<br>
+     <b>وصف الاحتياج:</b><div class="need">${p.need.split('\n').map(x=>`<div>${fmt(x)}</div>`).join('')}</div>
+     <b>إجراء التحسين:</b> ${esc(p.proc)}<br>
+     <b>الأسلوب:</b> ${esc(p.meth)}<br>
+     <b>المدة:</b> ${esc(p.dur).replace(/\n/g,' ')} &nbsp;·&nbsp;
+     <b>المسؤولية:</b> ${esc(p.resp)}</div>
+   </details>
+   <div class="fld"><label>الحالة</label>
+     <div class="stseg" id="f_st" data-v="${esc(it.st)}">
+       ${STATUSES.map(s=>`<button type="button" class="b-${CLS[s]}${it.st===s?' on':''}" onclick="setSt(this,'${s}')">${s}</button>`).join('')}
+     </div></div>
+   <div class="grid2">
+     <div class="fld"><label>نسبة الإنجاز</label>
+       <select id="f_pct">${[0,10,20,30,40,50,60,70,80,90,100].map(v=>
+         `<option ${(+it.pct||0)===v?'selected':''}>${v}</option>`).join('')}</select></div>
+     <div class="fld"><label>تاريخ التنفيذ الفعلي</label>
+       <input id="f_date" value="${esc(it.date)}" placeholder="12/4/1448هـ"></div>
+   </div>
+   <div class="fld"><label>المنفِّذة فعلًا <span>— تظهر في عمود «لجان المدرسة»</span></label>
+     <input id="f_exec" value="${esc(it.exec)}" placeholder="${esc(p.resp)}"></div>
+   <div class="fld"><label>الشواهد <span>— أسماء ملفّات أو روابط أو أرقام محاضر</span></label>
+     <textarea id="f_ev" placeholder="مثال: محضر اجتماع 12، صور التنفيذ، كشف حضور">${esc(it.ev)}</textarea></div>
+   <div class="fld"><label>دعم المشرفة التربوية <span>— يظهر في عمود «المشرف التربوي»</span></label>
+     <textarea id="f_sup" placeholder="ما قدّمته المشرفة في هذا البرنامج">${esc(it.sup)}</textarea></div>
+   <div class="fld"><label>ملاحظات وأثر على المؤشّر <span>— للمتابعة الداخلية، ولا تُطبع</span></label>
+     <textarea id="f_note">${esc(it.note)}</textarea></div>`;
+  document.getElementById('mMeta').textContent =
+    it.at ? `آخر تحديث: ${it.at}${it.by?' — '+it.by:''}` : 'لم يُحدَّث بعد';
+  const ov=document.getElementById('ov');
+  ov.classList.add('on'); ov.scrollTop=0;
+  document.body.style.overflow='hidden';
+}
+function setSt(b,s){
+  const box=document.getElementById('f_st'); box.dataset.v=s;
+  box.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  const pc=document.getElementById('f_pct');
+  if(s==='منفَّذ') pc.value='100';
+  if(s==='لم يبدأ') pc.value='0';
+}
+function closeModal(){
+  document.getElementById('ov').classList.remove('on'); openId=null;
+  document.body.style.overflow='';
+}
+function saveModal(){
+  if(openId==null) return;
+  const it=item(openId), v=id=>document.getElementById(id).value;
+  it.st = document.getElementById('f_st').dataset.v;
+  it.pct = +v('f_pct');
+  it.date = v('f_date').trim();
+  it.exec = v('f_exec').trim();
+  it.ev = v('f_ev').trim();
+  it.sup = v('f_sup').trim();
+  it.note = v('f_note').trim();
+  it.at = new Date().toISOString().slice(0,16).replace('T',' ');
+  it.by = state.who||'';
+  if(it.st==='منفَّذ' && !it.pct) it.pct=100;
+  persist(); closeModal(); renderAll(); toast('حُفظ التحديث');
+}
+
+/* ══ النسخ والدمج ══ */
+function backup(){
+  const blob = new Blob([JSON.stringify(state,null,1)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download = `نسخة-متابعة-238-${today()}${state.who?'-'+state.who:''}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('نُزّلت نسخة — أرسليها لمن يشاركك المتابعة');
+}
+function restore(inp){
+  const f=inp.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const inc=JSON.parse(r.result);
+      if(!inc || typeof inc!=='object' || !inc.items) throw 0;
+      let merged=0, kept=0;
+      for(const k in inc.items){
+        const a=state.items[k], b=inc.items[k];
+        if(!b || !b.at) continue;
+        if(!a || !a.at || b.at > a.at){ state.items[k]=b; merged++; }
+        else kept++;
+      }
+      if(!state.recs && inc.recs) state.recs = inc.recs;
+      persist(); renderAll();
+      toast(merged
+        ? `دُمجت ${merged} تحديثًا` + (kept? `، وبقيت ${kept} أحدث عندك` : '')
+        : 'لا جديد في هذا الملفّ');
+    }catch(e){ toast('الملفّ غير صالح — تأكّدي أنه نسخة من هذا البرنامج'); }
+    inp.value='';
+  };
+  r.readAsText(f);
+}
+function printForm2(){
+  renderForm2();
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('print'));
+  document.getElementById('form2').classList.add('print');
+  window.print();
+}
+
+/* ══ التشغيل ══ */
+function renderAll(){ renderDash(); renderProgs(); renderForm2(); }
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on', x.dataset.p===id));
+  document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on', x.id===id));
+  toggleMenu(false);
+}
+function toggleMenu(open){
+  const a=document.getElementById('actions'), b=document.getElementById('menuBtn');
+  const on = open==null ? !a.classList.contains('open') : open;
+  a.classList.toggle('open', on); b.setAttribute('aria-expanded', on?'true':'false');
+}
+function setOffsets(){
+  const top=document.querySelector('.top'), tabs=document.querySelector('.tabs');
+  const t = getComputedStyle(top).position==='sticky' ? top.offsetHeight : 0;
+  const under = getComputedStyle(tabs).position==='sticky' ? tabs.offsetHeight : 0;
+  const r=document.documentElement.style;
+  r.setProperty('--topH', t+'px');
+  r.setProperty('--headH', (t+under)+'px');
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{ showTab(t.dataset.p); window.scrollTo(0,0); });
+document.getElementById('actions').addEventListener('click',e=>{ if(e.target.closest('button')) toggleMenu(false); });
+document.addEventListener('click',e=>{ if(!e.target.closest('.top')) toggleMenu(false); });
+['find','fst','fresp'].forEach(id=>document.getElementById(id).onchange=renderProgs);
+document.getElementById('fq').oninput=renderProgs;
+document.getElementById('who').oninput=e=>{ state.who=e.target.value; persist(); };
+window.addEventListener('resize', setOffsets);
+
+const HOSTED = location.protocol==='http:' || location.protocol==='https:';
+function iosNote(){
+  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  const standalone = navigator.standalone===true || matchMedia('(display-mode: standalone)').matches;
+  let seen=false; try{ seen = localStorage.getItem(KEY+'.ios')==='1'; }catch(e){}
+  if(HOSTED && ios && !standalone && !seen) document.getElementById('iosNote').hidden=false;
+}
+function hideIosNote(){
+  document.getElementById('iosNote').hidden=true;
+  try{ localStorage.setItem(KEY+'.ios','1'); }catch(e){}
+}
+if(HOSTED && 'serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    const first = !navigator.serviceWorker.controller;
+    navigator.serviceWorker.register('sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{
+      if(first) toast('حُفظت الصفحة في الجهاز، وتُفتح بعد الآن بلا شبكة');
+    }).catch(()=>{});
+  });
+}
+
+(function init(){
+  document.getElementById('who').value = state.who||'';
+  const fi=document.getElementById('find');
+  WEAK.forEach(w=>fi.add(new Option(`${w.c} — ${num(w.pct)}% — ${w.short}`, w.c)));
+  const fr=document.getElementById('fresp');
+  [...new Set(FOCUS.map(p=>p.resp))].sort().forEach(r=>fr.add(new Option(r,r)));
+  setOffsets(); renderAll(); iosNote();
+})();
+</script>
+</body></html>
